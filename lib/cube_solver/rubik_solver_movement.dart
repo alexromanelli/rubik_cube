@@ -1,12 +1,7 @@
-
-import 'dart:math';
-
 import 'package:rubik_cube/cube_plotter/drawing_constants.dart';
 import 'package:rubik_cube/rubik_cube.dart';
 
-enum Movement {
-  R, R_, R2, L, L_, L2, U, U_, U2, D, D_, D2, F, F_, F2, B, B_, B2
-}
+enum Movement { R, R_, R2, L, L_, L2, U, U_, U2, D, D_, D2, F, F_, F2, B, B_, B2 }
 
 class PiecePosition {
   Face? face;
@@ -21,9 +16,7 @@ class PiecePosition {
   }
 }
 
-enum RotationSense {
-  clockwise, counterclockwise
-}
+enum RotationSense { clockwise, counterclockwise }
 
 class RubikSolverMovement {
   // Movement movement;
@@ -32,8 +25,14 @@ class RubikSolverMovement {
   static const externalJumpSize = 3;
 
   static final List<PiecePosition> internalPieceSequence = <PiecePosition>[
-    PiecePosition(null, 0, 0), PiecePosition(null, 0, 1), PiecePosition(null, 0, 2), PiecePosition(null, 1, 2),
-    PiecePosition(null, 2, 2), PiecePosition(null, 2, 1), PiecePosition(null, 2, 0), PiecePosition(null, 1, 0),
+    PiecePosition(null, 0, 0),
+    PiecePosition(null, 0, 1),
+    PiecePosition(null, 0, 2),
+    PiecePosition(null, 1, 2),
+    PiecePosition(null, 2, 2),
+    PiecePosition(null, 2, 1),
+    PiecePosition(null, 2, 0),
+    PiecePosition(null, 1, 0),
   ];
 
   static final Map<Face, List<PiecePosition>> mapFaceToExternalPieceSequence = <Face, List<PiecePosition>>{
@@ -72,9 +71,9 @@ class RubikSolverMovement {
       PiecePosition(Face.left, 0, 0),
       PiecePosition(Face.left, 1, 0),
       PiecePosition(Face.left, 2, 0),
-      PiecePosition(Face.bottom, 2, 2),
-      PiecePosition(Face.bottom, 2, 1),
       PiecePosition(Face.bottom, 2, 0),
+      PiecePosition(Face.bottom, 2, 1),
+      PiecePosition(Face.bottom, 2, 2),
       PiecePosition(Face.right, 2, 2),
       PiecePosition(Face.right, 1, 2),
       PiecePosition(Face.right, 0, 2),
@@ -89,9 +88,9 @@ class RubikSolverMovement {
       PiecePosition(Face.bottom, 0, 0),
       PiecePosition(Face.bottom, 1, 0),
       PiecePosition(Face.bottom, 2, 0),
-      PiecePosition(Face.right, 2, 2),
-      PiecePosition(Face.right, 1, 2),
-      PiecePosition(Face.right, 0, 2),
+      PiecePosition(Face.back, 2, 2),
+      PiecePosition(Face.back, 1, 2),
+      PiecePosition(Face.back, 0, 2),
     ],
     Face.top: <PiecePosition>[
       PiecePosition(Face.back, 0, 2),
@@ -127,12 +126,12 @@ class RubikSolverMovement {
 
   static void testaRotacao() {
     // rotateFace90(Face.front, RotationSense.counterclockwise);
+    var face = Face.bottom;
     for (int i = 0; i < internalJumpSize; ++i) {
-      rotateOne(
-          internalPieceSequence, Face.right, RotationSense.counterclockwise);
+      rotateOne(internalPieceSequence, face, RotationSense.clockwise);
     }
     for (int i = 0; i < externalJumpSize; ++i) {
-      rotateOne(internalPieceSequence, Face.right, RotationSense.counterclockwise);
+      rotateOne(mapFaceToExternalPieceSequence[face]!, face, RotationSense.clockwise);
     }
   }
 
@@ -194,9 +193,7 @@ class RubikSolverMovement {
     }
   }
 
-  void doMovementR(Face relativeTo) {
-
-  }
+  void doMovementR(Face relativeTo) {}
 
   /// This procedure rotates by 90 degree the face indicated by first parameter, with rotation
   /// sense indicated by second parameter. It uses the list of pieces that belong
@@ -212,21 +209,22 @@ class RubikSolverMovement {
     }
   }
 
-  static List<ColorName> getPieceSubsequence(List<PiecePosition> pieceSequence, int subsequenceSize, RotationSense sense) {
-    return List<ColorName>.generate(
-      subsequenceSize,
-      (index) {
-        var pos = switch (sense) {
-          RotationSense.clockwise => index,
-          RotationSense.counterclockwise => pieceSequence.length - subsequenceSize + index,
-        };
-        return RubikCube.getColorName(
-          pieceSequence.elementAt(pos).face!,
-          pieceSequence.elementAt(pos).row,
-          pieceSequence.elementAt(pos).column,
-        );
-      },
-    );
+  static List<ColorName> getPieceSubsequence(
+    List<PiecePosition> pieceSequence,
+    int subsequenceSize,
+    RotationSense sense,
+  ) {
+    return List<ColorName>.generate(subsequenceSize, (index) {
+      var pos = switch (sense) {
+        RotationSense.clockwise => index,
+        RotationSense.counterclockwise => pieceSequence.length - subsequenceSize + index,
+      };
+      return RubikCube.getColorName(
+        pieceSequence.elementAt(pos).face!,
+        pieceSequence.elementAt(pos).row,
+        pieceSequence.elementAt(pos).column,
+      );
+    });
   }
 
   static void rotateOne(List<PiecePosition> pieceSequence, Face face, RotationSense sense) {
@@ -236,25 +234,27 @@ class RubikSolverMovement {
       pieceSequence.elementAt(0).row,
       pieceSequence.elementAt(0).column,
     );
-    for (int i = switch (sense) {
-                   RotationSense.clockwise => pieceSequence.length - 1,
-                   RotationSense.counterclockwise => 1
-         };
-         switch (sense) {
-           RotationSense.clockwise => i > 0,
-           RotationSense.counterclockwise => i < pieceSequence.length
-         };
-         i = switch (sense) {
-           RotationSense.clockwise => i - 1,
-           RotationSense.counterclockwise => i + 1
-         }) {
+    for (
+      int i = switch (sense) {
+        RotationSense.clockwise => pieceSequence.length - 1,
+        RotationSense.counterclockwise => 1,
+      };
+      switch (sense) {
+        RotationSense.clockwise => i > 0,
+        RotationSense.counterclockwise => i < pieceSequence.length,
+      };
+      i = switch (sense) {
+        RotationSense.clockwise => i - 1,
+        RotationSense.counterclockwise => i + 1,
+      }
+    ) {
       var face = pieceSequence.elementAt(i).face!;
       var row = pieceSequence.elementAt(i).row;
       var column = pieceSequence.elementAt(i).column;
       var color = RubikCube.getColorName(face, row, column);
       var pos = switch (sense) {
         RotationSense.clockwise => (i + 1) % pieceSequence.length,
-        RotationSense.counterclockwise => i - 1
+        RotationSense.counterclockwise => i - 1,
       };
       face = pieceSequence.elementAt(pos).face!;
       row = pieceSequence.elementAt(pos).row;
@@ -266,10 +266,10 @@ class RubikSolverMovement {
       RotationSense.counterclockwise => pieceSequence.length - 1,
     };
     RubikCube.setColorName(
-        pieceSequence.elementAt(indBackup).face!,
-        pieceSequence.elementAt(indBackup).row,
-        pieceSequence.elementAt(indBackup).column,
-        backupColor
+      pieceSequence.elementAt(indBackup).face!,
+      pieceSequence.elementAt(indBackup).row,
+      pieceSequence.elementAt(indBackup).column,
+      backupColor,
     );
   }
 
@@ -303,12 +303,8 @@ class RubikSolverMovement {
   static int nextSequencePos(int currentIndex, int jumpLength, int sequenceLength, RotationSense sense) {
     return switch (sense) {
       RotationSense.clockwise => (currentIndex + jumpLength) % sequenceLength,
-      RotationSense.counterclockwise => (
-          currentIndex >= jumpLength
-          ? currentIndex - jumpLength
-          : sequenceLength - jumpLength + currentIndex
-      ),
+      RotationSense.counterclockwise =>
+        (currentIndex >= jumpLength ? currentIndex - jumpLength : sequenceLength - jumpLength + currentIndex),
     };
   }
 }
-

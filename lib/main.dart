@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rubik_cube/cube_reader/manual_reader/cube_reader_pre.dart';
 import 'package:rubik_cube/cube_reader/manual_reader/rubik_reader.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_movement.dart';
 
@@ -88,11 +87,9 @@ class _StartViewState extends State<StartView> {
             onPressed: () {
               // Navigator.push(context, MaterialPageRoute(builder: (context) => CubeReaderPre()));
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RubikReader()))
-                        .then((value) => setState(() {})
-              );
+                context,
+                MaterialPageRoute(builder: (context) => RubikReader()),
+              ).then((value) => setState(() {}));
             },
             alignment: Alignment.center,
             style: ButtonStyle(
@@ -114,7 +111,7 @@ class _StartViewState extends State<StartView> {
           SizedBox(width: 10.0),
           IconButton(
             iconSize: 30.0,
-            icon: const Icon(Icons.refresh_outlined, color: Colors.white),
+            icon: const Icon(Icons.loop_outlined, color: Colors.white),
             onPressed: () {
               setState(() {
                 RubikSolverMovement.testaRotacao();
@@ -144,6 +141,7 @@ class _StartViewState extends State<StartView> {
         scrollDirection: Axis.vertical,
         child: Container(
           alignment: Alignment.center,
+          margin: EdgeInsets.all(10.0),
           // width: 1000,
           // height: 1000,
           child: CustomPaint(painter: RubikCubePlotter(), size: Size(1000, 800)),

@@ -139,23 +139,23 @@ class RubikCubePlotter extends CustomPainter {
     Face.left: [],
   };
 
-  double max_x = -double.maxFinite;
-  double min_x = double.maxFinite;
-  double max_y = -double.maxFinite;
-  double min_y = double.maxFinite;
+  double xMax = -double.maxFinite;
+  double xMin = double.maxFinite;
+  double yMax = -double.maxFinite;
+  double yMin = double.maxFinite;
 
   void checkMaxMin(Point2D p) {
-    if (p.x > max_x) {
-      max_x = p.x;
+    if (p.x > xMax) {
+      xMax = p.x;
     }
-    if (p.x < min_x) {
-      min_x = p.x;
+    if (p.x < xMin) {
+      xMin = p.x;
     }
-    if (p.y > max_y) {
-      max_y = p.y;
+    if (p.y > yMax) {
+      yMax = p.y;
     }
-    if (p.y < min_y) {
-      min_y = p.y;
+    if (p.y < yMin) {
+      yMin = p.y;
     }
   }
 

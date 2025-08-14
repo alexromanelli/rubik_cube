@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rubik_cube/cube_reader/manual_reader/rubik_reader.dart';
 import 'package:rubik_cube/strings.dart';
 
-import 'cube_reader.dart';
-
 class CubeReaderPre extends StatefulWidget {
   CubeReaderPre({super.key});
   final CubeReaderPreState estado = CubeReaderPreState();
@@ -25,13 +23,6 @@ class CubeReaderPreState extends State<CubeReaderPre> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetStateProperty<TextStyle> textStyle =
-        WidgetStateProperty<TextStyle>.fromMap(<WidgetStatesConstraint, TextStyle>{
-          WidgetState.focused: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w100, color: Colors.orange),
-          WidgetState.hovered: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.green),
-          WidgetState.pressed: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
-          WidgetState.any: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
-        });
     return Scaffold(
       appBar: AppBar(
         title: const Text(
