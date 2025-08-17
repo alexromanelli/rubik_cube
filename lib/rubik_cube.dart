@@ -24,13 +24,10 @@ class CubeBorder extends CubePiece {
   @override
   void setFixedConnections() {
     if (super.fixedConnection.isNotEmpty) return;
-    Face face;
-    int row, column;
-    (face, row, column) = (super.currentFace, super.currentRow, super.currentColumn);
     for (NeighbourDirection neighbour in NeighbourDirection.values) {
       switch (neighbour) {
         case NeighbourDirection.up:
-          int rowUp = row - 1;
+          int rowUp = super.currentRow - 1;
           if (rowUp < 0) {}
         case NeighbourDirection.left:
         case NeighbourDirection.down:
