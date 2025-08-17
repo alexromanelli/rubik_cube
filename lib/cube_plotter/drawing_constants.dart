@@ -2,12 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:rubik_cube/cube_plotter/util.dart';
-
-enum Face { front, top, right, back, bottom, left }
-
-enum ColorName { white, yellow, red, orange, green, blue, none }
-
-enum CoordAxis { x, y }
+import 'package:rubik_cube/rubik_cube.dart';
 
 class DrawingConstants {
   static final double _angle1 = 90;

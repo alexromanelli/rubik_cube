@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:rubik_cube/rubik_cube.dart';
+
 import 'drawing_constants.dart';
 
 class Point2D {

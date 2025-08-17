@@ -1,4 +1,3 @@
-import 'package:rubik_cube/cube_plotter/drawing_constants.dart';
 import 'package:rubik_cube/rubik_cube.dart';
 
 enum Movement { R, R_, R2, L, L_, L2, U, U_, U2, D, D_, D2, F, F_, F2, B, B_, B2 }
@@ -19,8 +18,6 @@ class PiecePosition {
 enum RotationSense { clockwise, counterclockwise }
 
 class RubikSolverMovement {
-  // Movement movement;
-
   static const internalJumpSize = 2;
   static const externalJumpSize = 3;
 
@@ -125,75 +122,65 @@ class RubikSolverMovement {
   // RubikSolverMovement(this.movement);
 
   static void testaRotacao() {
-    // rotateFace90(Face.front, RotationSense.counterclockwise);
-    var face = Face.bottom;
-    for (int i = 0; i < internalJumpSize; ++i) {
-      rotateOne(internalPieceSequence, face, RotationSense.clockwise);
-    }
-    for (int i = 0; i < externalJumpSize; ++i) {
-      rotateOne(mapFaceToExternalPieceSequence[face]!, face, RotationSense.clockwise);
-    }
+    doMovement(Movement.B, Face.front);
+    // // rotateFace90(Face.front, RotationSense.counterclockwise);
+    // var face = Face.bottom;
+    // for (int i = 0; i < internalJumpSize; ++i) {
+    //   rotateOne(internalPieceSequence, face, RotationSense.clockwise);
+    // }
+    // for (int i = 0; i < externalJumpSize; ++i) {
+    //   rotateOne(mapFaceToExternalPieceSequence[face]!, face, RotationSense.clockwise);
+    // }
   }
 
-  void doMovement(Movement movement, Face relativeTo) {
+  static void doMovement(Movement movement, Face referenceFace) {
     switch (movement) {
       case Movement.R:
-        doMovementR(relativeTo);
+        doGeneralMovement(referenceFace, Face.right, RotationSense.clockwise, false);
       case Movement.R_:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.right, RotationSense.counterclockwise, false);
       case Movement.R2:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.right, RotationSense.clockwise, true);
       case Movement.L:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.left, RotationSense.clockwise, false);
       case Movement.L_:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.left, RotationSense.counterclockwise, false);
       case Movement.L2:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.left, RotationSense.clockwise, true);
       case Movement.U:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.top, RotationSense.clockwise, false);
       case Movement.U_:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.top, RotationSense.counterclockwise, false);
       case Movement.U2:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.top, RotationSense.clockwise, true);
       case Movement.D:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.bottom, RotationSense.clockwise, false);
       case Movement.D_:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.bottom, RotationSense.counterclockwise, false);
       case Movement.D2:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.bottom, RotationSense.clockwise, true);
       case Movement.F:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.front, RotationSense.clockwise, false);
       case Movement.F_:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.front, RotationSense.counterclockwise, false);
       case Movement.F2:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.front, RotationSense.clockwise, true);
       case Movement.B:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.back, RotationSense.clockwise, false);
       case Movement.B_:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.back, RotationSense.counterclockwise, false);
       case Movement.B2:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        doGeneralMovement(referenceFace, Face.back, RotationSense.clockwise, true);
     }
   }
 
-  void doMovementR(Face relativeTo) {}
+  static void doGeneralMovement(Face referenceFace, Face relativeFace, RotationSense sense, bool twoMoves) {
+    Face faceToMove = RubikCube.mapFaceAndRelativeFaceToFace[(referenceFace, relativeFace)]!;
+    rotateFace90(faceToMove, sense);
+    if (twoMoves) {
+      rotateFace90(faceToMove, sense);
+    }
+  }
 
   /// This procedure rotates by 90 degree the face indicated by first parameter, with rotation
   /// sense indicated by second parameter. It uses the list of pieces that belong
@@ -207,24 +194,6 @@ class RubikSolverMovement {
     for (int i = 0; i < externalJumpSize; i++) {
       rotateOne(mapFaceToExternalPieceSequence[face]!, face, sense);
     }
-  }
-
-  static List<ColorName> getPieceSubsequence(
-    List<PiecePosition> pieceSequence,
-    int subsequenceSize,
-    RotationSense sense,
-  ) {
-    return List<ColorName>.generate(subsequenceSize, (index) {
-      var pos = switch (sense) {
-        RotationSense.clockwise => index,
-        RotationSense.counterclockwise => pieceSequence.length - subsequenceSize + index,
-      };
-      return RubikCube.getColorName(
-        pieceSequence.elementAt(pos).face!,
-        pieceSequence.elementAt(pos).row,
-        pieceSequence.elementAt(pos).column,
-      );
-    });
   }
 
   static void rotateOne(List<PiecePosition> pieceSequence, Face face, RotationSense sense) {
@@ -273,38 +242,9 @@ class RubikSolverMovement {
     );
   }
 
-  static int initialSequenceIndex(int sequenceLength, RotationSense sense) {
-    return switch (sense) {
-      RotationSense.clockwise => sequenceLength - 1,
-      RotationSense.counterclockwise => 0,
-    };
-  }
-
   static void setPieceSequenceFace(List<PiecePosition> pieceSequence, Face currentFace) {
     for (var element in pieceSequence) {
       element.face = currentFace;
     }
-  }
-
-  static bool loopCondition(int currentIndex, int sequenceLength, int jump, RotationSense sense) {
-    return switch (sense) {
-      RotationSense.clockwise => currentIndex >= jump,
-      RotationSense.counterclockwise => currentIndex < sequenceLength - jump,
-    };
-  }
-
-  static int nextSequenceIndex(int currentIndex, int sequenceLength, RotationSense sense) {
-    return switch (sense) {
-      RotationSense.clockwise => currentIndex - 1,
-      RotationSense.counterclockwise => currentIndex + 1,
-    };
-  }
-
-  static int nextSequencePos(int currentIndex, int jumpLength, int sequenceLength, RotationSense sense) {
-    return switch (sense) {
-      RotationSense.clockwise => (currentIndex + jumpLength) % sequenceLength,
-      RotationSense.counterclockwise =>
-        (currentIndex >= jumpLength ? currentIndex - jumpLength : sequenceLength - jumpLength + currentIndex),
-    };
   }
 }

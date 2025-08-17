@@ -60,7 +60,7 @@ class CubeReaderState extends State<CubeReader> {
     5: Colors.yellow,
   };
 
-  final Map<String, ColorName> colorNameMap = {
+  static final Map<String, ColorName> colorNameMap = {
     "Azul": ColorName.blue,
     "Vermelho": ColorName.red,
     "Verde": ColorName.green,
@@ -127,14 +127,10 @@ class CubeReaderState extends State<CubeReader> {
       label: "",
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-          WidgetState.focused | WidgetState.pressed | WidgetState.hovered | WidgetState.any:
-          buttonColor,
+          WidgetState.focused | WidgetState.pressed | WidgetState.hovered | WidgetState.any: buttonColor,
         }),
         shape: WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{
-          WidgetState.focused |
-          WidgetState.pressed |
-          WidgetState.hovered |
-          WidgetState.any: RoundedRectangleBorder(
+          WidgetState.focused | WidgetState.pressed | WidgetState.hovered | WidgetState.any: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(4.0)),
             side: BorderSide(color: Colors.black, width: 1.0, style: BorderStyle.solid),
           ),
