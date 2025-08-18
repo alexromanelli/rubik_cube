@@ -1,95 +1,147 @@
+import 'package:rubik_cube/cube_solver/cerpe-method/step-algorithm.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_movement.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_solution.dart';
 import 'package:rubik_cube/rubik_cube.dart';
 
-typedef Coords = ({int row, int column});
-
-class Step1Algorithm {
-  static final List<Coords> middlePlaces = <Coords>[
+class Step1Algorithm implements StepAlgorithm {
+  final List<Coords> middlePlaces = <Coords>[
     (row: 0, column: 1),
     (row: 1, column: 0),
     (row: 1, column: 2),
     (row: 2, column: 1),
   ];
-  static final List<Coords> easyPlaces = <Coords>[(row: 1, column: 0), (row: 1, column: 2)];
-  static final List<Coords> lessEasyPlaces = <Coords>[(row: 0, column: 1), (row: 2, column: 1)];
+  final List<Coords> easyPlaces = <Coords>[(row: 1, column: 0), (row: 1, column: 2)];
+  final List<Coords> lessEasyPlaces = <Coords>[(row: 0, column: 1), (row: 2, column: 1)];
 
-  static var faceMovementLogList = <FaceMovementLog>[];
+  var faceMovementLogList = <FaceMovementLog>[];
 
-  static List<FaceMovementLog> runStep1Algorithm() {
-    faceMovementLogList.clear();
-
-    // count not white middle pieces on yellow face
-    var numberOfNonWhiteMiddlePiecesOnYellowFace = countNotWhiteMiddlePiecesOnYellowFace();
-    while (numberOfNonWhiteMiddlePiecesOnYellowFace > 0) {
-      // check face for easy positions of white middle
-      for (Face face in Face.values) {
-        if (face == RubikCube.mapColorNameToFace[ColorName.yellow]) {
-          continue;
-        }
-        // TODO: implementar verificação exaustiva de middle pieces e tomar ações específicas para cada caso
-        Coords? whiteMiddleCoord = findWhiteMiddlePieceInFace(face);
-        if (whiteMiddleCoord != null) {
-          // take action to put this white middle in yellow face (top)
-          if (RubikCube.isFaceOppositeToOtherFace(RubikCube.mapColorNameToFace[ColorName.yellow]!, face)) {
-            FaceDirection faceSide = whiteMiddleCoord.column == 0 ? FaceDirection.right : FaceDirection.left;
-            putNonWhiteMiddlePieceInSide(faceSide);
-
-            /// Face TODO: implementar ação para face == Face.front
-            switch (face) {
-              case Face.front:
-                switch (faceSide) {
-                  case FaceDirection.up:
-                  case FaceDirection.left:
-                  case FaceDirection.down:
-                  case FaceDirection.right:
-                }
-              case Face.top:
-                // TODO: Handle this case.
-                throw UnimplementedError();
-              case Face.right:
-                // TODO: Handle this case.
-                throw UnimplementedError();
-              case Face.back:
-                // TODO: Handle this case.
-                throw UnimplementedError();
-              case Face.bottom:
-                // TODO: Handle this case.
-                throw UnimplementedError();
-              case Face.left:
-                // TODO: Handle this case.
-                throw UnimplementedError();
-            }
-            Face faceToRotate = switch (face) {
-              Face.front => switch (faceSide) {
-                FaceDirection.up => RubikCube.mapColorNameToFace[FaceDirection.up]!,
-                FaceDirection.left => throw UnimplementedError(),
-                FaceDirection.down => throw UnimplementedError(),
-                FaceDirection.right => throw UnimplementedError(),
-              },
-              // TODO: Handle this case.
-              Face.top => throw UnimplementedError(),
-              // TODO: Handle this case.
-              Face.right => throw UnimplementedError(),
-              // TODO: Handle this case.
-              Face.back => throw UnimplementedError(),
-              // TODO: Handle this case.
-              Face.bottom => throw UnimplementedError(),
-              // TODO: Handle this case.
-              Face.left => throw UnimplementedError(),
-            };
-          }
+  List<MiddlePiece> findAllWhiteMiddlePieces() {
+    var pieces = <MiddlePiece>[];
+    for (var face in Face.values) {
+      for (var place in middlePlaces) {
+        Coords coord = (row: place.row, column: place.column);
+        MiddlePiece piece = (face: face, coords: coord);
+        if (RubikCube.getColorName(face, place.row, place.column) == ColorName.white) {
+          pieces.add(piece);
         }
       }
-
-      // update non white middle pieces count on yellow face
-      numberOfNonWhiteMiddlePiecesOnYellowFace = countNotWhiteMiddlePiecesOnYellowFace();
     }
-
-    return faceMovementLogList;
+    return pieces;
   }
 
-  static void putNonWhiteMiddlePieceInSide(FaceDirection faceSide) {
+  @override
+  List<FaceMovementLog> runStep() {
+    faceMovementLogList.clear();
+
+    var numberOfNonWhiteMiddlePiecesOnYellowFace = countNotWhiteMiddlePiecesOnYellowFace();
+
+    while (numberOfNonWhiteMiddlePiecesOnYellowFace > 0) {
+      // front side
+      if (RubikCube.getColorName(Face.front, 0, 1) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.down);
+        doMovement(Face.front, Movement.F);
+        putNonWhiteMiddlePieceInSide(FaceDirection.right);
+        doMovement(Face.front, Movement.R);
+      } else if (RubikCube.getColorName(Face.front, 1, 0) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L_);
+      } else if (RubikCube.getColorName(Face.front, 2, 1) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.down);
+        doMovement(Face.front, Movement.F);
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L_);
+      } else if (RubikCube.getColorName(Face.front, 1, 2) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.right);
+        doMovement(Face.front, Movement.R);
+      }
+
+      // right side
+      if (RubikCube.getColorName(Face.right, 0, 1) == ColorName.white) {
+        doMovement(Face.front, Movement.R);
+        putNonWhiteMiddlePieceInSide(FaceDirection.up);
+        doMovement(Face.front, Movement.B);
+      } else if (RubikCube.getColorName(Face.right, 1, 0) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.down);
+        doMovement(Face.front, Movement.F_);
+      } else if (RubikCube.getColorName(Face.right, 2, 1) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.right);
+        doMovement(Face.front, Movement.R);
+        putNonWhiteMiddlePieceInSide(FaceDirection.down);
+        doMovement(Face.front, Movement.F_);
+      } else if (RubikCube.getColorName(Face.right, 1, 2) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.up);
+        doMovement(Face.front, Movement.B);
+      }
+
+      // left side
+      if (RubikCube.getColorName(Face.left, 0, 1) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L);
+        putNonWhiteMiddlePieceInSide(FaceDirection.down);
+        doMovement(Face.front, Movement.F);
+      } else if (RubikCube.getColorName(Face.left, 1, 0) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.up);
+        doMovement(Face.front, Movement.B_);
+      } else if (RubikCube.getColorName(Face.left, 2, 1) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L_);
+        putNonWhiteMiddlePieceInSide(FaceDirection.down);
+        doMovement(Face.front, Movement.F);
+      } else if (RubikCube.getColorName(Face.left, 1, 2) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.down);
+        doMovement(Face.front, Movement.F);
+      }
+
+      // back side
+      if (RubikCube.getColorName(Face.back, 0, 1) == ColorName.white) {
+        doMovement(Face.front, Movement.B);
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L);
+      } else if (RubikCube.getColorName(Face.back, 1, 0) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.right);
+        doMovement(Face.front, Movement.R_);
+      } else if (RubikCube.getColorName(Face.back, 2, 1) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.up);
+        doMovement(Face.front, Movement.B);
+        putNonWhiteMiddlePieceInSide(FaceDirection.right);
+        doMovement(Face.front, Movement.R_);
+      } else if (RubikCube.getColorName(Face.back, 1, 2) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L);
+      }
+
+      // bottom side
+      if (RubikCube.getColorName(Face.bottom, 0, 1) == ColorName.white) {
+        doMovement(Face.front, Movement.D);
+        putNonWhiteMiddlePieceInSide(FaceDirection.right);
+        doMovement(Face.front, Movement.R2);
+      } else if (RubikCube.getColorName(Face.bottom, 1, 0) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L2);
+      } else if (RubikCube.getColorName(Face.bottom, 2, 1) == ColorName.white) {
+        doMovement(Face.front, Movement.D);
+        putNonWhiteMiddlePieceInSide(FaceDirection.left);
+        doMovement(Face.front, Movement.L2);
+      } else if (RubikCube.getColorName(Face.bottom, 1, 2) == ColorName.white) {
+        putNonWhiteMiddlePieceInSide(FaceDirection.right);
+        doMovement(Face.front, Movement.R2);
+      }
+
+      numberOfNonWhiteMiddlePiecesOnYellowFace = countNotWhiteMiddlePiecesOnYellowFace();
+    }
+    return copyOf(faceMovementLogList);
+  }
+
+  List<FaceMovementLog> copyOf(List<FaceMovementLog> logs) {
+    var copy = <FaceMovementLog>[];
+    for (var log in logs) {
+      var itemCopy = FaceMovementLog(log.referenceFace, log.movement);
+      copy.add(itemCopy);
+    }
+    return copy;
+  }
+
+  void putNonWhiteMiddlePieceInSide(FaceDirection faceSide) {
     switch (faceSide) {
       case FaceDirection.up:
         if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![0][1] !=
@@ -177,12 +229,12 @@ class Step1Algorithm {
     }
   }
 
-  static void doMovement(Face referenceFace, Movement movement) {
+  void doMovement(Face referenceFace, Movement movement) {
     RubikSolverMovement.doMovement(referenceFace, movement);
     faceMovementLogList.add(FaceMovementLog(referenceFace, movement));
   }
 
-  static int countNotWhiteMiddlePiecesOnYellowFace() {
+  int countNotWhiteMiddlePiecesOnYellowFace() {
     int notWhite = 0;
     for (Coords coords in middlePlaces) {
       if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![coords.row][coords
@@ -194,7 +246,7 @@ class Step1Algorithm {
     return notWhite;
   }
 
-  static Coords? findWhiteMiddlePieceInFace(Face face) {
+  Coords? findWhiteMiddlePieceInFace(Face face) {
     for (var place in easyPlaces) {
       if (RubikCube.mapFaceToColorNameMatrix[face]![place.row][place.column] == ColorName.white) {
         return place;

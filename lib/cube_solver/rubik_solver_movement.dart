@@ -21,6 +21,29 @@ class RubikSolverMovement {
   static const internalJumpSize = 2;
   static const externalJumpSize = 3;
 
+  static String movementToString(Movement mov) {
+    return switch (mov) {
+      Movement.R => "R",
+      Movement.R_ => "R'",
+      Movement.R2 => "R2",
+      Movement.L => "L",
+      Movement.L_ => "L'",
+      Movement.L2 => "L2",
+      Movement.U => "U",
+      Movement.U_ => "U'",
+      Movement.U2 => "U2",
+      Movement.D => "D",
+      Movement.D_ => "D'",
+      Movement.D2 => "D2",
+      Movement.F => "F",
+      Movement.F_ => "F'",
+      Movement.F2 => "F2",
+      Movement.B => "B",
+      Movement.B_ => "B'",
+      Movement.B2 => "B2",
+    };
+  }
+
   static final List<PiecePosition> internalPieceSequence = <PiecePosition>[
     PiecePosition(null, 0, 0),
     PiecePosition(null, 0, 1),

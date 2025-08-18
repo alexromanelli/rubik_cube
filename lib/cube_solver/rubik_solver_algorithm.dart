@@ -4,4 +4,6 @@ interface class SolverAlgorithm {
   CubeSolverSolution? solveCubeInstance() {
     return null;
   }
+
+  void returnToInitialState() {}
 }

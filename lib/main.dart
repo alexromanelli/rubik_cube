@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rubik_cube/cube_plotter/drawing_constants.dart';
 import 'package:rubik_cube/cube_reader/manual_reader/cube_reader.dart';
 import 'package:rubik_cube/cube_reader/manual_reader/rubik_reader.dart';
+import 'package:rubik_cube/cube_solver/cerpe-method/cerpe-solver-algorithm.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_movement.dart';
 import 'package:rubik_cube/rubik_cube.dart';
 
@@ -219,10 +220,13 @@ class _StartViewState extends State<StartView> {
                   icon: const Icon(Icons.start, color: Colors.white),
                   onPressed: () {
                     // Navigator.push(context, MaterialPageRoute(builder: (context) => CubeReaderPre()));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RubikReader()),
-                    ).then((value) => setState(() {}));
+                    var solver = CerpeSolverAlgorithm();
+                    var solution = solver.solveCubeInstance();
+                    for (var move in solution!.movementSequence) {
+                      print(move.toString());
+                    }
+                    solver.returnToInitialState();
+                    setState(() {});
                   },
                   style: ButtonStyle(
                     shape: WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{

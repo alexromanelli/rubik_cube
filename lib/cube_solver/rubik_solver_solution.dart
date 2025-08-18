@@ -6,6 +6,12 @@ class FaceMovementLog {
   Movement movement;
 
   FaceMovementLog(this.referenceFace, this.movement);
+
+  @override
+  String toString() {
+    var txt = RubikSolverMovement.movementToString(movement);
+    return "${referenceFace} ${txt}";
+  }
 }
 
 class CubeSolverSolution {
@@ -67,5 +73,10 @@ class CubeSolverSolution {
   Future<bool> saveSolutionData() async {
     // TODO implement saveSolutionData to record the solution data into a Firebase instance
     return false;
+  }
+
+  void clear() {
+    movementSequence.clear();
+    setInitialState();
   }
 }

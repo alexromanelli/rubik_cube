@@ -14,6 +14,9 @@ abstract class CubePiece {
   void setFixedConnections() {}
 }
 
+typedef Coords = ({int row, int column});
+typedef MiddlePiece = ({Face face, Coords coords});
+
 class CubeCenter extends CubePiece {
   CubeCenter(super.currentFace, super.currentRow, super.currentColumn, super.colorName);
 }
@@ -175,34 +178,34 @@ class RubikCube {
 
   static final Map<Face, List<List<ColorName>>> mapFaceToColorNameMatrix = <Face, List<List<ColorName>>>{
     Face.front: [
-      [ColorName.yellow, ColorName.orange, ColorName.white],
-      [ColorName.orange, ColorName.blue, ColorName.blue],
-      [ColorName.blue, ColorName.yellow, ColorName.green],
+      [ColorName.orange, ColorName.green, ColorName.red],
+      [ColorName.blue, ColorName.blue, ColorName.white],
+      [ColorName.white, ColorName.blue, ColorName.green],
     ],
     Face.right: [
-      [ColorName.orange, ColorName.green, ColorName.red],
-      [ColorName.yellow, ColorName.red, ColorName.yellow],
-      [ColorName.red, ColorName.green, ColorName.orange],
+      [ColorName.yellow, ColorName.blue, ColorName.green],
+      [ColorName.red, ColorName.red, ColorName.orange],
+      [ColorName.red, ColorName.orange, ColorName.orange],
     ],
     Face.left: [
-      [ColorName.red, ColorName.red, ColorName.orange],
-      [ColorName.white, ColorName.orange, ColorName.blue],
-      [ColorName.white, ColorName.blue, ColorName.yellow],
+      [ColorName.white, ColorName.red, ColorName.blue],
+      [ColorName.green, ColorName.orange, ColorName.yellow],
+      [ColorName.yellow, ColorName.green, ColorName.red],
     ],
     Face.back: [
-      [ColorName.yellow, ColorName.orange, ColorName.white],
-      [ColorName.orange, ColorName.green, ColorName.blue],
-      [ColorName.blue, ColorName.yellow, ColorName.green],
+      [ColorName.white, ColorName.green, ColorName.red],
+      [ColorName.white, ColorName.green, ColorName.orange],
+      [ColorName.yellow, ColorName.orange, ColorName.green],
     ],
     Face.top: [
-      [ColorName.blue, ColorName.green, ColorName.blue],
-      [ColorName.white, ColorName.yellow, ColorName.white],
-      [ColorName.green, ColorName.white, ColorName.green],
+      [ColorName.green, ColorName.white, ColorName.orange],
+      [ColorName.yellow, ColorName.yellow, ColorName.red],
+      [ColorName.white, ColorName.yellow, ColorName.blue],
     ],
     Face.bottom: [
-      [ColorName.orange, ColorName.green, ColorName.yellow],
-      [ColorName.red, ColorName.white, ColorName.red],
-      [ColorName.red, ColorName.red, ColorName.white],
+      [ColorName.blue, ColorName.white, ColorName.yellow],
+      [ColorName.red, ColorName.white, ColorName.blue],
+      [ColorName.orange, ColorName.yellow, ColorName.blue],
     ],
   };
 
@@ -271,6 +274,16 @@ class RubikCube {
         return face2 == Face.bottom;
       case Face.bottom:
         return face2 == Face.top;
+    }
+  }
+
+  static void resetCubeToState(Map<Face, List<List<ColorName>>> initialState) {
+    for (var face in Face.values) {
+      for (var row = 0; row < 3; ++row) {
+        for (var column = 0; column < 3; ++column) {
+          setColorName(face, row, column, initialState[face]![row][column]);
+        }
+      }
     }
   }
 }
