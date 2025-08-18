@@ -122,7 +122,7 @@ class RubikSolverMovement {
   // RubikSolverMovement(this.movement);
 
   static void testaRotacao() {
-    doMovement(Movement.B, Face.front);
+    doMovement(Face.front, Movement.B);
     // // rotateFace90(Face.front, RotationSense.counterclockwise);
     // var face = Face.bottom;
     // for (int i = 0; i < internalJumpSize; ++i) {
@@ -133,7 +133,7 @@ class RubikSolverMovement {
     // }
   }
 
-  static void doMovement(Movement movement, Face referenceFace) {
+  static void doMovement(Face referenceFace, Movement movement) {
     switch (movement) {
       case Movement.R:
         doGeneralMovement(referenceFace, Face.right, RotationSense.clockwise, false);

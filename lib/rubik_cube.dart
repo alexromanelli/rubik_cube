@@ -1,4 +1,4 @@
-enum NeighbourDirection { up, left, down, right }
+enum FaceDirection { up, left, down, right }
 
 enum PieceType { center, border, corner }
 
@@ -7,7 +7,7 @@ abstract class CubePiece {
   int currentRow;
   int currentColumn;
   final ColorName colorName;
-  final Map<NeighbourDirection, CubePiece> fixedConnection = <NeighbourDirection, CubePiece>{};
+  final Map<FaceDirection, CubePiece> fixedConnection = <FaceDirection, CubePiece>{};
 
   CubePiece(this.currentFace, this.currentRow, this.currentColumn, this.colorName);
 
@@ -24,14 +24,14 @@ class CubeBorder extends CubePiece {
   @override
   void setFixedConnections() {
     if (super.fixedConnection.isNotEmpty) return;
-    for (NeighbourDirection neighbour in NeighbourDirection.values) {
+    for (FaceDirection neighbour in FaceDirection.values) {
       switch (neighbour) {
-        case NeighbourDirection.up:
+        case FaceDirection.up:
           int rowUp = super.currentRow - 1;
           if (rowUp < 0) {}
-        case NeighbourDirection.left:
-        case NeighbourDirection.down:
-        case NeighbourDirection.right:
+        case FaceDirection.left:
+        case FaceDirection.down:
+        case FaceDirection.right:
       }
     }
   }
@@ -101,6 +101,78 @@ class RubikCube {
     ColorName.white: Face.bottom,
   };
 
+  static Face getNeighbourFace(Face referenceFace, ColorName color) {
+    var direction = FaceDirection.up;
+    switch (referenceFace) {
+      case Face.front:
+        switch (direction) {
+          case FaceDirection.up:
+            return Face.top;
+          case FaceDirection.left:
+            return Face.left;
+          case FaceDirection.down:
+            return Face.bottom;
+          case FaceDirection.right:
+            return Face.right;
+        }
+      case Face.top:
+        switch (direction) {
+          case FaceDirection.up:
+            return Face.back;
+          case FaceDirection.left:
+            return Face.left;
+          case FaceDirection.down:
+            return Face.front;
+          case FaceDirection.right:
+            return Face.right;
+        }
+      case Face.right:
+        switch (direction) {
+          case FaceDirection.up:
+            return Face.top;
+          case FaceDirection.left:
+            return Face.front;
+          case FaceDirection.down:
+            return Face.bottom;
+          case FaceDirection.right:
+            return Face.back;
+        }
+      case Face.back:
+        switch (direction) {
+          case FaceDirection.up:
+            return Face.top;
+          case FaceDirection.down:
+            return Face.bottom;
+          case FaceDirection.left:
+            return Face.right;
+          case FaceDirection.right:
+            return Face.left;
+        }
+      case Face.bottom:
+        switch (direction) {
+          case FaceDirection.up:
+            return Face.front;
+          case FaceDirection.down:
+            return Face.back;
+          case FaceDirection.left:
+            return Face.left;
+          case FaceDirection.right:
+            return Face.right;
+        }
+      case Face.left:
+        switch (direction) {
+          case FaceDirection.up:
+            return Face.top;
+          case FaceDirection.down:
+            return Face.bottom;
+          case FaceDirection.left:
+            return Face.back;
+          case FaceDirection.right:
+            return Face.front;
+        }
+    }
+  }
+
   static final Map<Face, List<List<ColorName>>> mapFaceToColorNameMatrix = <Face, List<List<ColorName>>>{
     Face.front: [
       [ColorName.yellow, ColorName.orange, ColorName.white],
@@ -133,6 +205,18 @@ class RubikCube {
       [ColorName.red, ColorName.red, ColorName.white],
     ],
   };
+
+  static Map<Face, List<List<ColorName>>> copyOfMapFaceToColorNameMatrix() {
+    var copy = <Face, List<List<ColorName>>>{};
+    for (Face face in Face.values) {
+      copy[face] = List<List<ColorName>>.generate(3, (row) {
+        return List<ColorName>.generate(3, (column) {
+          return mapFaceToColorNameMatrix[face]![row][column];
+        });
+      });
+    }
+    return copy;
+  }
 
   static void resetCube() {
     for (var face in Face.values) {
@@ -173,5 +257,20 @@ class RubikCube {
     colorHasChanged = true;
   }
 
-  void executaMovimento() {}
+  static bool isFaceOppositeToOtherFace(Face face1, Face face2) {
+    switch (face1) {
+      case Face.front:
+        return face2 == Face.back;
+      case Face.back:
+        return face2 == Face.front;
+      case Face.right:
+        return face2 == Face.left;
+      case Face.left:
+        return face2 == Face.right;
+      case Face.top:
+        return face2 == Face.bottom;
+      case Face.bottom:
+        return face2 == Face.top;
+    }
+  }
 }

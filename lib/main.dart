@@ -210,6 +210,39 @@ class _StartViewState extends State<StartView> {
                   // style: ButtonStyle(iconAlignment: IconAlignment.start),
                 ),
               ),
+              Container(
+                width: 40.0,
+                height: 40.0,
+                alignment: Alignment.center,
+                child: IconButton(
+                  iconSize: 30.0,
+                  icon: const Icon(Icons.start, color: Colors.white),
+                  onPressed: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => CubeReaderPre()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RubikReader()),
+                    ).then((value) => setState(() {}));
+                  },
+                  style: ButtonStyle(
+                    shape: WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{
+                      WidgetState.any: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+                    }),
+                    padding: WidgetStateProperty<EdgeInsetsGeometry>.fromMap(
+                      <WidgetStatesConstraint, EdgeInsetsGeometry>{
+                        WidgetState.any: const EdgeInsets.only(bottom: 5.0, top: 5.0),
+                      },
+                    ),
+                    backgroundColor: WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
+                      WidgetState.focused: Colors.indigoAccent,
+                      WidgetState.pressed | WidgetState.hovered: Colors.blueAccent,
+                      WidgetState.any: Colors.blue,
+                    }),
+                    alignment: Alignment.center,
+                  ),
+                  // style: ButtonStyle(iconAlignment: IconAlignment.start),
+                ),
+              ),
             ],
           ),
         ],

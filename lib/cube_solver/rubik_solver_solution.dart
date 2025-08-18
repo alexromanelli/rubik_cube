@@ -2,10 +2,10 @@ import 'package:rubik_cube/cube_solver/rubik_solver_movement.dart';
 import 'package:rubik_cube/rubik_cube.dart';
 
 class FaceMovementLog {
-  Face face;
+  Face referenceFace;
   Movement movement;
 
-  FaceMovementLog(this.face, this.movement);
+  FaceMovementLog(this.referenceFace, this.movement);
 }
 
 class CubeSolverSolution {
@@ -42,21 +42,26 @@ class CubeSolverSolution {
     ],
   };
 
-  void setInitialState(Map<Face, List<List<ColorName>>> faceColor) {
-    for (Face face in Face.values) {
-      for (int r = 0; r < 3; ++r) {
-        for (int c = 0; c < 3; ++c) {
-          initialState[face]![r][c] = faceColor[face]![r][c];
-        }
-      }
-    }
-  }
+  // void setInitialState(Map<Face, List<List<ColorName>>> faceColor) {
+  //   for (Face face in Face.values) {
+  //     for (int r = 0; r < 3; ++r) {
+  //       for (int c = 0; c < 3; ++c) {
+  //         initialState[face]![r][c] = faceColor[face]![r][c];
+  //       }
+  //     }
+  //   }
+  // }
 
   List<FaceMovementLog> movementSequence = <FaceMovementLog>[];
 
-  void addMovement(Face face, Movement movement) {
-    var log = FaceMovementLog(face, movement);
+  void addMovement(Face referenceFace, Movement movement) {
+    var log = FaceMovementLog(referenceFace, movement);
     movementSequence.add(log);
+  }
+
+  void setInitialState() {
+    initialState = RubikCube.copyOfMapFaceToColorNameMatrix();
+    movementSequence.clear();
   }
 
   Future<bool> saveSolutionData() async {
