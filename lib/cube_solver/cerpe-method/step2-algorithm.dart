@@ -16,80 +16,104 @@ class Step2Algorithm implements StepAlgorithm {
   @override
   List<FaceMovementLog> runStep() {
     faceMovementLogList.clear();
-    for (var coord in middlePlaces) {
-      // get connected piece in neighbour face
-      if (coord == (row: 0, column: 1)) {
-        var neighbourFace = Face.back;
-        Coords connectedPieceCoord = (row: 0, column: 1);
-        var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
-        switch (colorName) {
-          case ColorName.blue:
-            doMovement(Face.front, Movement.U2);
-            doMovement(Face.front, Movement.F2);
-          case ColorName.red:
-            doMovement(Face.front, Movement.U);
-            doMovement(Face.front, Movement.R2);
-          case ColorName.orange:
-            doMovement(Face.front, Movement.U_);
-            doMovement(Face.front, Movement.L2);
-          case ColorName.green:
-            doMovement(Face.front, Movement.B2);
-          case ColorName.yellow || ColorName.white || ColorName.none:
-          // do nothing
-        }
-      } else if (coord == (row: 1, column: 0)) {
-        var neighbourFace = Face.left;
-        Coords connectedPieceCoord = (row: 0, column: 1);
-        var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
-        switch (colorName) {
-          case ColorName.blue:
-            doMovement(Face.front, Movement.U_);
-            doMovement(Face.front, Movement.F2);
-          case ColorName.red:
-            doMovement(Face.front, Movement.U2);
-            doMovement(Face.front, Movement.R2);
-          case ColorName.green:
-            doMovement(Face.front, Movement.U);
-            doMovement(Face.front, Movement.B2);
-          case ColorName.orange:
-            doMovement(Face.front, Movement.L2);
-          case ColorName.yellow || ColorName.white || ColorName.none: // do nothing
-        }
-      } else if (coord == (row: 1, column: 2)) {
-        var neighbourFace = Face.right;
-        Coords connectedPieceCoord = (row: 0, column: 1);
-        var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
-        switch (colorName) {
-          case ColorName.blue:
-            doMovement(Face.front, Movement.U);
-            doMovement(Face.front, Movement.F2);
-          case ColorName.red:
-            doMovement(Face.front, Movement.R2);
-          case ColorName.green:
-            doMovement(Face.front, Movement.U_);
-            doMovement(Face.front, Movement.B2);
-          case ColorName.orange:
-            doMovement(Face.front, Movement.U2);
-            doMovement(Face.front, Movement.L2);
-          case ColorName.yellow || ColorName.white || ColorName.red || ColorName.none: // do nothing
-        }
-      } else if (coord == (row: 2, column: 1)) {
-        var neighbourFace = Face.front;
-        Coords connectedPieceCoord = (row: 0, column: 1);
-        var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
-        switch (colorName) {
-          case ColorName.blue:
-            doMovement(Face.front, Movement.F2);
-          case ColorName.red:
-            doMovement(Face.front, Movement.U_);
-            doMovement(Face.front, Movement.R2);
-          case ColorName.green:
-            doMovement(Face.front, Movement.U2);
-            doMovement(Face.front, Movement.B2);
-          case ColorName.orange:
-            doMovement(Face.front, Movement.U);
-            doMovement(Face.front, Movement.L2);
-          case ColorName.yellow || ColorName.white || ColorName.blue || ColorName.none: // do nothing
+    int countPlacements = 0;
+    while (countPlacements < 4) {
+      for (var coord in middlePlaces) {
+        // get connected piece in neighbour face
+        if (coord == (row: 0, column: 1)) {
+          if (RubikCube.getColorName(Face.top, coord.row, coord.column) != ColorName.white) {
+            continue;
+          } else {
+            ++countPlacements;
+          }
+          var neighbourFace = Face.back;
+          Coords connectedPieceCoord = (row: 0, column: 1);
+          var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
+          switch (colorName) {
+            case ColorName.blue:
+              doMovement(Face.front, Movement.U2);
+              doMovement(Face.front, Movement.F2);
+            case ColorName.red:
+              doMovement(Face.front, Movement.U);
+              doMovement(Face.front, Movement.R2);
+            case ColorName.orange:
+              doMovement(Face.front, Movement.U_);
+              doMovement(Face.front, Movement.L2);
+            case ColorName.green:
+              doMovement(Face.front, Movement.B2);
+            case ColorName.yellow || ColorName.white || ColorName.none:
+              break; // do nothing
+          }
+        } else if (coord == (row: 1, column: 0)) {
+          if (RubikCube.getColorName(Face.top, coord.row, coord.column) != ColorName.white) {
+            continue;
+          } else {
+            ++countPlacements;
+          }
+          var neighbourFace = Face.left;
+          Coords connectedPieceCoord = (row: 0, column: 1);
+          var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
+          switch (colorName) {
+            case ColorName.blue:
+              doMovement(Face.front, Movement.U_);
+              doMovement(Face.front, Movement.F2);
+            case ColorName.red:
+              doMovement(Face.front, Movement.U2);
+              doMovement(Face.front, Movement.R2);
+            case ColorName.green:
+              doMovement(Face.front, Movement.U);
+              doMovement(Face.front, Movement.B2);
+            case ColorName.orange:
+              doMovement(Face.front, Movement.L2);
+            case ColorName.yellow || ColorName.white || ColorName.none:
+              break; // do nothing
+          }
+        } else if (coord == (row: 1, column: 2)) {
+          if (RubikCube.getColorName(Face.top, coord.row, coord.column) != ColorName.white) {
+            continue;
+          } else {
+            ++countPlacements;
+          }
+          var neighbourFace = Face.right;
+          Coords connectedPieceCoord = (row: 0, column: 1);
+          var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
+          switch (colorName) {
+            case ColorName.blue:
+              doMovement(Face.front, Movement.U);
+              doMovement(Face.front, Movement.F2);
+            case ColorName.red:
+              doMovement(Face.front, Movement.R2);
+            case ColorName.green:
+              doMovement(Face.front, Movement.U_);
+              doMovement(Face.front, Movement.B2);
+            case ColorName.orange:
+              doMovement(Face.front, Movement.U2);
+              doMovement(Face.front, Movement.L2);
+            case ColorName.yellow || ColorName.white || ColorName.red || ColorName.none: // do nothing
+          }
+        } else if (coord == (row: 2, column: 1)) {
+          if (RubikCube.getColorName(Face.top, coord.row, coord.column) != ColorName.white) {
+            continue;
+          } else {
+            ++countPlacements;
+          }
+          var neighbourFace = Face.front;
+          Coords connectedPieceCoord = (row: 0, column: 1);
+          var colorName = RubikCube.getColorName(neighbourFace, connectedPieceCoord.row, connectedPieceCoord.column);
+          switch (colorName) {
+            case ColorName.blue:
+              doMovement(Face.front, Movement.F2);
+            case ColorName.red:
+              doMovement(Face.front, Movement.U_);
+              doMovement(Face.front, Movement.R2);
+            case ColorName.green:
+              doMovement(Face.front, Movement.U2);
+              doMovement(Face.front, Movement.B2);
+            case ColorName.orange:
+              doMovement(Face.front, Movement.U);
+              doMovement(Face.front, Movement.L2);
+            case ColorName.yellow || ColorName.white || ColorName.blue || ColorName.none: // do nothing
+          }
         }
       }
     }

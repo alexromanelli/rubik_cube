@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'cube_solver/rubik_solver_movement.dart';
+
 enum FaceDirection { up, left, down, right }
 
 enum PieceType { center, border, corner }
@@ -102,6 +106,15 @@ class RubikCube {
     ColorName.orange: Face.left,
     ColorName.yellow: Face.top,
     ColorName.white: Face.bottom,
+  };
+
+  static final Map<Face, ColorName> mapFaceToColorName = <Face, ColorName>{
+    Face.front: ColorName.blue,
+    Face.right: ColorName.red,
+    Face.back: ColorName.green,
+    Face.left: ColorName.orange,
+    Face.top: ColorName.yellow,
+    Face.bottom: ColorName.white,
   };
 
   static Face getNeighbourFace(Face referenceFace, ColorName color) {
@@ -231,6 +244,53 @@ class RubikCube {
           setColorName(face, row, column, ColorName.none);
         }
       }
+    }
+  }
+
+  static final List<Coords> middleCoords = <Coords>[
+    (row: 0, column: 1),
+    (row: 1, column: 0),
+    (row: 1, column: 2),
+    (row: 2, column: 1),
+  ];
+  static final List<Coords> cornerCoords = <Coords>[
+    (row: 0, column: 0),
+    (row: 0, column: 2),
+    (row: 2, column: 0),
+    (row: 2, column: 2),
+  ];
+
+  static List<Coords> getUnitedCoords() {
+    var list = <Coords>[];
+    list.addAll(middleCoords);
+    list.addAll(cornerCoords);
+    return list;
+  }
+
+  static bool isCorner(Coords coord) {
+    if (cornerCoords.contains(coord)) {
+      return true;
+    }
+    return false;
+  }
+
+  static void setCubeSolved() {
+    for (var face in Face.values) {
+      for (var row = 0; row < 3; ++row) {
+        for (var column = 0; column < 3; ++column) {
+          mapFaceToColorNameMatrix[face]![row][column] = mapFaceToColorName[face]!;
+        }
+      }
+    }
+  }
+
+  static void createRandomCubeState() {
+    setCubeSolved();
+    Random randomGenerator = Random.secure();
+    for (int i = 0; i < 100; ++i) {
+      int r = randomGenerator.nextInt(18);
+      Movement m = Movement.values[r];
+      RubikSolverMovement.doMovement(Face.front, m);
     }
   }
 
