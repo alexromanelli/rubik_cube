@@ -1,6 +1,70 @@
 import 'package:rubik_cube/rubik_cube.dart';
 
-enum Movement { R, R_, R2, L, L_, L2, U, U_, U2, D, D_, D2, F, F_, F2, B, B_, B2 }
+/// Movement is an enumeration of all movements that can be done in a Rubik's Cube
+enum Movement {
+  /// 90° clockwise rotation of the Right Side (right is relative to the blue side, considered the front)
+  R("R"),
+
+  /// 90° counterclockwise rotation of the Right Side (right is relative to the blue side, considered the front)
+  R_("R'"),
+
+  /// 180° clockwise rotation (if it was counterclockwise, the result is the same) of the Right Side
+  /// (right is relative to the blue side, considered the front)
+  R2("R2"),
+
+  /// 90° clockwise rotation of the Left Side (left is relative to the blue side, considered the front)
+  L("L"),
+
+  /// 90° counterclockwise rotation of the Left Side (left is relative to the blue side, considered the front)
+  L_("L'"),
+
+  /// 180° clockwise rotation of the Left Side (if it was counterclockwise, the result is the same)
+  /// (left is relative to the blue side, considered the front)
+  L2("L2"),
+
+  /// 90° clockwise rotation of the Up Side (up is relative to the blue side, considered the front)
+  U("U"),
+
+  /// 90° counterclockwise rotation of the Up Side (up is relative to the blue side, considered the front)
+  U_("U'"),
+
+  /// 180° clockwise rotation of the Up Side (if it was counterclockwise, the result is the same)
+  /// (up is relative to the blue side, considered the front)
+  U2("U2"),
+
+  /// 90° clockwise rotation of the Down Side (left is relative to the blue side, considered the front)
+  D("D"),
+
+  /// 90° counterclockwise rotation of the Down Side (left is relative to the blue side, considered the front)
+  D_("D'"),
+
+  /// 180° clockwise rotation of the Down Side (if it was counterclockwise, the result is the same)
+  /// (down is relative to the blue side, considered the front)
+  D2("D2"),
+
+  /// 90° clockwise rotation of the Front Side (front is relative to the blue side, considered the front)
+  F("F"),
+
+  /// 90° counterclockwise rotation of the Front Side (front is relative to the blue side, considered the front)
+  F_("F'"),
+
+  /// 180° clockwise rotation of the Front Side (if it was counterclockwise, the result is the same)
+  /// (front is relative to the blue side, considered the front)
+  F2("F2"),
+
+  /// 90° clockwise rotation of the Back Side (back is relative to the blue side, considered the front)
+  B("B"),
+
+  /// 90° counterclockwise rotation of the Back Side (back is relative to the blue side, considered the front)
+  B_("B'"),
+
+  /// 180° clockwise rotation of the Back Side (if it was counterclockwise, the result is the same)
+  /// (back is relative to the blue side, considered the front)
+  B2("B2");
+
+  final String name;
+  const Movement(this.name);
+}
 
 class PiecePosition {
   Face? face;

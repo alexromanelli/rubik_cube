@@ -10,7 +10,16 @@ class FaceMovementLog {
   @override
   String toString() {
     var txt = RubikSolverMovement.movementToString(movement);
-    return "${referenceFace} ${txt}";
+    return "$referenceFace $txt";
+  }
+
+  static List<FaceMovementLog> copyOf(List<FaceMovementLog> logs) {
+    var copy = <FaceMovementLog>[];
+    for (var log in logs) {
+      var itemCopy = FaceMovementLog(log.referenceFace, log.movement);
+      copy.add(itemCopy);
+    }
+    return copy;
   }
 }
 

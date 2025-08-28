@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'cube_solver/rubik_solver_movement.dart';
@@ -50,7 +51,11 @@ class CubeCorner extends CubePiece {
 
 enum Face { front, top, right, back, bottom, left }
 
-enum ColorName { white, yellow, red, orange, green, blue, none }
+enum ColorName {
+  white("W"), yellow("Y"), red("R"), orange("O"), green("G"), blue("B"), none("-");
+  final String startChar;
+  const ColorName(this.startChar);
+}
 
 enum CoordAxis { x, y }
 
@@ -117,8 +122,8 @@ class RubikCube {
     Face.bottom: ColorName.white,
   };
 
-  static Face getNeighbourFace(Face referenceFace, ColorName color) {
-    var direction = FaceDirection.up;
+  static Face getNeighbourFace(Face referenceFace, FaceDirection direction) {
+    // var direction = FaceDirection.up;
     switch (referenceFace) {
       case Face.front:
         switch (direction) {
@@ -292,6 +297,7 @@ class RubikCube {
       Movement m = Movement.values[r];
       RubikSolverMovement.doMovement(Face.front, m);
     }
+    // printCube();
   }
 
   static ColorName getColorName(Face face, int linha, int coluna) {
@@ -346,4 +352,41 @@ class RubikCube {
       }
     }
   }
+/*
+  static void printCubeFaceToCubeMatrix(Face face, List<List<String>> cubeMatrix, int startRow, int startColumn) {
+    for (int r = 0; r < 3; ++r) {
+      for (int c = 0; c < 3; ++c) {
+        ColorName color = RubikCube.getColorName(face, r, c);
+        cubeMatrix[startRow + r][startColumn + c] = color.startChar;
+      }
+    }
+  }
+
+  static void printCubeMatrix(List<List<String>> cubeMatrix) {
+    print("Cube current state:");
+    // for (var cubeMatrixRow in cubeMatrix) {
+    //   for (var cubeFaceColumn in cubeMatrixRow) {
+    //     stdout.write(" $cubeFaceColumn ");
+    //   }
+    //   stdout.writeln();
+    // }
+  }
+
+  static void printCube() {
+    // make a matrix 9x12 of characters, initially filled with character space
+    List<List<String>> cubeMatrix = <List<String>>[];
+    for (int r = 0; r < 9; ++r) {
+      cubeMatrix.add(<String>[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']);
+    }
+    // print the cube faces to the matrix
+    printCubeFaceToCubeMatrix(Face.left, cubeMatrix, 3, 0);
+    printCubeFaceToCubeMatrix(Face.front, cubeMatrix, 3, 3);
+    printCubeFaceToCubeMatrix(Face.right, cubeMatrix, 3, 6);
+    printCubeFaceToCubeMatrix(Face.back, cubeMatrix, 3, 9);
+    printCubeFaceToCubeMatrix(Face.top, cubeMatrix, 0, 3);
+    printCubeFaceToCubeMatrix(Face.bottom, cubeMatrix, 6, 3);
+
+    printCubeMatrix(cubeMatrix);
+  }
+*/
 }
