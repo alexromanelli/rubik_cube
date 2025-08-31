@@ -1,10 +1,10 @@
-import 'package:rubik_cube/cube_solver/cerpe_method/step_algorithm.dart';
+import 'package:rubik_cube/cube_solver/cerpe_method/algorithm_step.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_algorithm.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_movement.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_solution.dart';
 import 'package:rubik_cube/rubik_cube.dart';
 
-class Step2Algorithm implements StepAlgorithm {
+class AlgorithmStep2 implements AlgorithmStep {
   final List<Coords> middlePlaces = <Coords>[
     (row: 0, column: 1),
     (row: 1, column: 0),

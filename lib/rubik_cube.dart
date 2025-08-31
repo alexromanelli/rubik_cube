@@ -52,7 +52,14 @@ class CubeCorner extends CubePiece {
 enum Face { front, top, right, back, bottom, left }
 
 enum ColorName {
-  white("W"), yellow("Y"), red("R"), orange("O"), green("G"), blue("B"), none("-");
+  white("W"),
+  yellow("Y"),
+  red("R"),
+  orange("O"),
+  green("G"),
+  blue("B"),
+  none("-");
+
   final String startChar;
   const ColorName(this.startChar);
 }
@@ -239,6 +246,111 @@ class RubikCube {
     return copy;
   }
 
+  static Map<Face, Map<Movement, Movement>> mapFaceAndMovementToReferToFront = <Face, Map<Movement, Movement>>{
+    Face.right: <Movement, Movement>{
+      Movement.U: Movement.U,
+      Movement.U_: Movement.U_,
+      Movement.U2: Movement.U2,
+      Movement.B: Movement.L,
+      Movement.B_: Movement.L_,
+      Movement.B2: Movement.L2,
+      Movement.R: Movement.B,
+      Movement.R_: Movement.B_,
+      Movement.R2: Movement.B2,
+      Movement.L: Movement.F,
+      Movement.L_: Movement.F_,
+      Movement.L2: Movement.F2,
+      Movement.F: Movement.R,
+      Movement.F_: Movement.R_,
+      Movement.F2: Movement.R2,
+    },
+    Face.left: <Movement, Movement>{
+      Movement.U: Movement.U,
+      Movement.U_: Movement.U_,
+      Movement.U2: Movement.U2,
+      Movement.B: Movement.R,
+      Movement.B_: Movement.R_,
+      Movement.B2: Movement.R2,
+      Movement.R: Movement.F,
+      Movement.R_: Movement.F_,
+      Movement.R2: Movement.F2,
+      Movement.L: Movement.B,
+      Movement.L_: Movement.B_,
+      Movement.L2: Movement.B2,
+      Movement.F: Movement.L,
+      Movement.F_: Movement.L_,
+      Movement.F2: Movement.L2,
+    },
+    Face.back: <Movement, Movement>{
+      Movement.U: Movement.U,
+      Movement.U_: Movement.U_,
+      Movement.U2: Movement.U2,
+      Movement.B: Movement.F,
+      Movement.B_: Movement.F_,
+      Movement.B2: Movement.F2,
+      Movement.R: Movement.L,
+      Movement.R_: Movement.L_,
+      Movement.R2: Movement.L2,
+      Movement.L: Movement.R,
+      Movement.L_: Movement.R_,
+      Movement.L2: Movement.R2,
+      Movement.F: Movement.B,
+      Movement.F_: Movement.B_,
+      Movement.F2: Movement.B2,
+    },
+    Face.front: <Movement, Movement>{
+      Movement.U: Movement.U,
+      Movement.U_: Movement.U_,
+      Movement.U2: Movement.U2,
+      Movement.B: Movement.B,
+      Movement.B_: Movement.B_,
+      Movement.B2: Movement.B2,
+      Movement.R: Movement.R,
+      Movement.R_: Movement.R_,
+      Movement.R2: Movement.R2,
+      Movement.L: Movement.L,
+      Movement.L_: Movement.L_,
+      Movement.L2: Movement.L2,
+      Movement.F: Movement.F,
+      Movement.F_: Movement.F_,
+      Movement.F2: Movement.F2,
+    },
+    Face.top: <Movement, Movement>{
+      Movement.U: Movement.B,
+      Movement.U_: Movement.B_,
+      Movement.U2: Movement.B2,
+      Movement.B: Movement.D,
+      Movement.B_: Movement.D_,
+      Movement.B2: Movement.D2,
+      Movement.R: Movement.R,
+      Movement.R_: Movement.R_,
+      Movement.R2: Movement.R2,
+      Movement.L: Movement.L,
+      Movement.L_: Movement.L_,
+      Movement.L2: Movement.L2,
+      Movement.F: Movement.U,
+      Movement.F_: Movement.U_,
+      Movement.F2: Movement.U2,
+    },
+    Face.bottom: <Movement, Movement>{
+      Movement.U: Movement.F,
+      Movement.U_: Movement.F_,
+      Movement.U2: Movement.F2,
+      Movement.B: Movement.U,
+      Movement.B_: Movement.U_,
+      Movement.B2: Movement.U2,
+      Movement.R: Movement.R,
+      Movement.R_: Movement.R_,
+      Movement.R2: Movement.R2,
+      Movement.L: Movement.L,
+      Movement.L_: Movement.L_,
+      Movement.L2: Movement.L2,
+      Movement.F: Movement.D,
+      Movement.F_: Movement.D_,
+      Movement.F2: Movement.D2,
+    },
+  };
+
   static void resetCube() {
     for (var face in Face.values) {
       for (var row in [0, 1, 2]) {
@@ -352,7 +464,7 @@ class RubikCube {
       }
     }
   }
-/*
+
   static void printCubeFaceToCubeMatrix(Face face, List<List<String>> cubeMatrix, int startRow, int startColumn) {
     for (int r = 0; r < 3; ++r) {
       for (int c = 0; c < 3; ++c) {
@@ -364,12 +476,12 @@ class RubikCube {
 
   static void printCubeMatrix(List<List<String>> cubeMatrix) {
     print("Cube current state:");
-    // for (var cubeMatrixRow in cubeMatrix) {
-    //   for (var cubeFaceColumn in cubeMatrixRow) {
-    //     stdout.write(" $cubeFaceColumn ");
-    //   }
-    //   stdout.writeln();
-    // }
+    for (var cubeMatrixRow in cubeMatrix) {
+      for (var cubeFaceColumn in cubeMatrixRow) {
+        stdout.write(" $cubeFaceColumn ");
+      }
+      stdout.writeln();
+    }
   }
 
   static void printCube() {
@@ -388,5 +500,4 @@ class RubikCube {
 
     printCubeMatrix(cubeMatrix);
   }
-*/
 }

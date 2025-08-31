@@ -1,4 +1,4 @@
-import 'package:rubik_cube/cube_solver/cerpe_method/step_algorithm.dart';
+import 'package:rubik_cube/cube_solver/cerpe_method/algorithm_step.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_algorithm.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_movement.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_solution.dart';
@@ -15,7 +15,7 @@ class FaceDirectionAndCornerSide {
   FaceDirectionAndCornerSide(this.faceDirection, this.cornerSide);
 }
 
-class Step3AlgorithmV2 implements StepAlgorithm {
+class AlgorithmStep3 implements AlgorithmStep {
   @override
   AlgorithmStepResult runStep() {
     var step = AlgorithmStepResult(false, []);
@@ -69,9 +69,9 @@ class Step3AlgorithmV2 implements StepAlgorithm {
           refFace = RubikCube.getNeighbourFace(faceAndCornerSide.face, FaceDirection.left);
         }
         var movesToPutCornerOutOfBase = <FaceMovementLog>[
-          FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-          FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
-          FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
+          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
+          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
+          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
         ];
         // print("Put corner out of base:");
         // movesToPutCornerOutOfBase.forEach(printMovement);
@@ -118,9 +118,9 @@ class Step3AlgorithmV2 implements StepAlgorithm {
           var refFace = RubikCube.getNeighbourFace(currentFace, FaceDirection.left);
           // print("current: ${currentFace}, ref: ${refFace}");
           list.addAll(<FaceMovementLog>[
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
           ]);
           // print("Place corner:");
           // list.forEach(printMovement);
@@ -128,9 +128,9 @@ class Step3AlgorithmV2 implements StepAlgorithm {
           var refFace = RubikCube.getNeighbourFace(currentFace, FaceDirection.right);
           // print("current: ${currentFace}, ref: ${refFace}");
           list.addAll(<FaceMovementLog>[
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.L_]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.U_]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.L]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.L_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.L]!),
           ]);
           // print("Place corner:");
           // list.forEach(printMovement);
@@ -144,13 +144,13 @@ class Step3AlgorithmV2 implements StepAlgorithm {
           var refFace = RubikCube.getNeighbourFace(currentFace, faceDirection);
           // print("current: ${currentFace}, ref: ${refFace}");
           list.addAll(<FaceMovementLog>[
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.U2]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.U_]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
-            FaceMovementLog(Face.front, mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U2]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
           ]);
           // print("Place corner:");
           // list.forEach(printMovement);
@@ -183,111 +183,6 @@ class Step3AlgorithmV2 implements StepAlgorithm {
       };
     }
   }
-
-  static Map<Face, Map<Movement, Movement>> mapFaceAndMovementToReferToFront = <Face, Map<Movement, Movement>>{
-    Face.right: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.L,
-      Movement.B_: Movement.L_,
-      Movement.B2: Movement.L2,
-      Movement.R: Movement.B,
-      Movement.R_: Movement.B_,
-      Movement.R2: Movement.B2,
-      Movement.L: Movement.F,
-      Movement.L_: Movement.F_,
-      Movement.L2: Movement.F2,
-      Movement.F: Movement.R,
-      Movement.F_: Movement.R_,
-      Movement.F2: Movement.R2,
-    },
-    Face.left: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.R,
-      Movement.B_: Movement.R_,
-      Movement.B2: Movement.R2,
-      Movement.R: Movement.F,
-      Movement.R_: Movement.F_,
-      Movement.R2: Movement.F2,
-      Movement.L: Movement.B,
-      Movement.L_: Movement.B_,
-      Movement.L2: Movement.B2,
-      Movement.F: Movement.L,
-      Movement.F_: Movement.L_,
-      Movement.F2: Movement.L2,
-    },
-    Face.back: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.F,
-      Movement.B_: Movement.F_,
-      Movement.B2: Movement.F2,
-      Movement.R: Movement.L,
-      Movement.R_: Movement.L_,
-      Movement.R2: Movement.L2,
-      Movement.L: Movement.R,
-      Movement.L_: Movement.R_,
-      Movement.L2: Movement.R2,
-      Movement.F: Movement.B,
-      Movement.F_: Movement.B_,
-      Movement.F2: Movement.B2,
-    },
-    Face.front: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.B,
-      Movement.B_: Movement.B_,
-      Movement.B2: Movement.B2,
-      Movement.R: Movement.R,
-      Movement.R_: Movement.R_,
-      Movement.R2: Movement.R2,
-      Movement.L: Movement.L,
-      Movement.L_: Movement.L_,
-      Movement.L2: Movement.L2,
-      Movement.F: Movement.F,
-      Movement.F_: Movement.F_,
-      Movement.F2: Movement.F2,
-    },
-    Face.top: <Movement, Movement>{
-      Movement.U: Movement.B,
-      Movement.U_: Movement.B_,
-      Movement.U2: Movement.B2,
-      Movement.B: Movement.D,
-      Movement.B_: Movement.D_,
-      Movement.B2: Movement.D2,
-      Movement.R: Movement.R,
-      Movement.R_: Movement.R_,
-      Movement.R2: Movement.R2,
-      Movement.L: Movement.L,
-      Movement.L_: Movement.L_,
-      Movement.L2: Movement.L2,
-      Movement.F: Movement.U,
-      Movement.F_: Movement.U_,
-      Movement.F2: Movement.U2,
-    },
-    Face.bottom: <Movement, Movement>{
-      Movement.U: Movement.F,
-      Movement.U_: Movement.F_,
-      Movement.U2: Movement.F2,
-      Movement.B: Movement.U,
-      Movement.B_: Movement.U_,
-      Movement.B2: Movement.U2,
-      Movement.R: Movement.R,
-      Movement.R_: Movement.R_,
-      Movement.R2: Movement.R2,
-      Movement.L: Movement.L,
-      Movement.L_: Movement.L_,
-      Movement.L2: Movement.L2,
-      Movement.F: Movement.D,
-      Movement.F_: Movement.D_,
-      Movement.F2: Movement.D2,
-    },
-  };
 
   static Map<CornerSide, Coords> mapCornerSideToCoords = <CornerSide, Coords>{
     CornerSide.upLeft: (row: 0, column: 0),

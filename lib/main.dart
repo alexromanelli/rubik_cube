@@ -18,11 +18,7 @@ class RubikCubeSolverGUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rubik Cube Solver',
-      // theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: StartView(),
-    );
+    return MaterialApp(title: 'Rubik Cube Solver', home: StartView());
   }
 }
 
@@ -48,6 +44,10 @@ class _StartViewState extends State<StartView> {
   late Widget solutionRow;
   late List<bool> usedMove = <bool>[];
   late int usedMoveCurrentPos;
+
+  late SingleChildScrollView solutionScrollablePanel;
+  List<Widget> solutionStepButtonList = <Widget>[];
+  List<GlobalKey> solutionStepButtonKeyList = <GlobalKey>[];
 
   CubeSolverSolution? currentSolution;
 
@@ -83,7 +83,6 @@ class _StartViewState extends State<StartView> {
         color: DrawingConstants.pieceColor[selectedFaceColor],
       ),
       requestFocusOnTap: false,
-      // menuHeight: 30.0,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: DrawingConstants.pieceColor[selectedFaceColor],
@@ -163,15 +162,12 @@ class _StartViewState extends State<StartView> {
       },
       style: ButtonStyle(
         fixedSize: WidgetStateProperty.fromMap(<WidgetStatesConstraint, Size>{WidgetState.any: Size.fromWidth(230.0)}),
-        // backgroundColor: WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-        //   WidgetState.focused | WidgetState.pressed | WidgetState.hovered | WidgetState.any: Colors.white,
-        // }),
-        // shape: WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{
-        //   WidgetState.focused | WidgetState.pressed | WidgetState.hovered | WidgetState.any: RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.all(Radius.circular(4.0)),
-        //     side: BorderSide(color: Colors.black, width: 1.0, style: BorderStyle.solid),
-        //   ),
-        // }),
+        shape: WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{
+          WidgetState.any: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 2.0, style: BorderStyle.solid),
+          ),
+        }),
       ),
     );
   }
@@ -185,10 +181,12 @@ class _StartViewState extends State<StartView> {
 
   @override
   Widget build(BuildContext context) {
+    solutionStepButtonList.clear();
+    solutionStepButtonKeyList.clear();
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        // toolbarHeight: 50,
         title: const Text(
           "Rubik's Cube Solver",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
@@ -209,7 +207,6 @@ class _StartViewState extends State<StartView> {
                   iconSize: 30.0,
                   icon: const Icon(Icons.palette_outlined, color: Colors.white),
                   onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => CubeReaderPre()));
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => RubikReader()),
@@ -231,7 +228,6 @@ class _StartViewState extends State<StartView> {
                     }),
                     alignment: Alignment.center,
                   ),
-                  // style: ButtonStyle(iconAlignment: IconAlignment.start),
                 ),
               ),
               Container(
@@ -263,7 +259,6 @@ class _StartViewState extends State<StartView> {
                     }),
                     alignment: Alignment.center,
                   ),
-                  // style: ButtonStyle(iconAlignment: IconAlignment.start),
                 ),
               ),
               Container(
@@ -274,14 +269,8 @@ class _StartViewState extends State<StartView> {
                   iconSize: 30.0,
                   icon: const Icon(Icons.start, color: Colors.white),
                   onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => CubeReaderPre()));
                     var solver = CerpeSolverAlgorithm();
                     currentSolution = solver.solveCubeInstance();
-                    // if (currentSolution != null) {
-                    //   for (var move in currentSolution!.movementSequence) {
-                    //     print(move.movement.name);
-                    //   }
-                    // }
                     solver.returnToInitialState();
                     resetUsedMove();
                     setState(() {});
@@ -302,7 +291,6 @@ class _StartViewState extends State<StartView> {
                     }),
                     alignment: Alignment.center,
                   ),
-                  // style: ButtonStyle(iconAlignment: IconAlignment.start),
                 ),
               ),
             ],
@@ -315,7 +303,6 @@ class _StartViewState extends State<StartView> {
           alignment: Alignment.topCenter,
           child: Column(
             children: [
-              //SizedBox(height: 10.0),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Container(
@@ -343,7 +330,6 @@ class _StartViewState extends State<StartView> {
                         initialSelection: RotationSense.clockwise,
                       ),
                       Container(
-                        // width: 50.0,
                         height: 70.0,
                         alignment: Alignment.center,
                         child: IconButton(
@@ -358,20 +344,13 @@ class _StartViewState extends State<StartView> {
                             shape: WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{
                               WidgetState.any: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
                             }),
-                            // fixedSize: WidgetStatePropertyAll(Size.square(50.0)),
                             alignment: Alignment.center,
-                            // padding: WidgetStateProperty<EdgeInsetsGeometry>.fromMap(
-                            //   <WidgetStatesConstraint, EdgeInsetsGeometry>{
-                            //     WidgetState.any: const EdgeInsets.only(bottom: 5.0, top: 5.0),
-                            //   },
-                            // ),
                             backgroundColor: WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
                               WidgetState.focused: Colors.indigoAccent,
                               WidgetState.pressed | WidgetState.hovered: Colors.blueAccent,
                               WidgetState.any: Colors.blue,
                             }),
                           ),
-                          // style: ButtonStyle(iconAlignment: IconAlignment.start),
                         ),
                       ),
                     ],
@@ -380,71 +359,61 @@ class _StartViewState extends State<StartView> {
               ),
               currentSolution == null || currentSolution!.movementSequence.isEmpty
                   ? Container(alignment: Alignment.center, height: 50.0, child: Text("Ainda não solucionado"))
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        spacing: 6.0,
-                        children: [
-                          Container(
-                            width: 50.0,
-                            height: 50.0,
-                            alignment: Alignment.center,
-                            child: IconButton(
-                              iconSize: 30,
-                              onPressed: () {
-                                if (usedMoveCurrentPos < currentSolution!.movementSequence.length) {
-                                  RubikSolverMovement.doMovement(
-                                    Face.front,
-                                    currentSolution!.movementSequence[usedMoveCurrentPos].movement,
-                                  );
-                                  ++usedMoveCurrentPos;
-                                  setState(() {});
-                                }
-                              },
-                              style: ButtonStyle(
-                                fixedSize: WidgetStateProperty<Size>.fromMap(<WidgetStatesConstraint, Size>{
-                                  WidgetState.any: Size.square(50),
-                                }),
-                                shape: WidgetStateProperty<OutlinedBorder>.fromMap(
-                                  <WidgetStatesConstraint, OutlinedBorder>{
-                                    WidgetState.any: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-                                  },
-                                ),
-                                alignment: Alignment.center,
-                                backgroundColor: WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-                                  WidgetState.any: Colors.orange,
-                                }),
-                                // (usedMoveCurrentPos < usedMove.length
-                                //   ? WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-                                //       WidgetState.focused: Colors.indigoAccent,
-                                //       WidgetState.pressed | WidgetState.hovered: usedMove[index] ? Colors.blueAccent : Colors.deepOrange,
-                                //       WidgetState.any: Colors.blue,
-                                //     })
-                                //   : WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-                                //       WidgetState.focused: Colors.indigoAccent,
-                                //       WidgetState.pressed | WidgetState.hovered: Colors.blueAccent,
-                                //       WidgetState.any: Colors.blue,
-                                //     })
-                                // ),
-                              ),
-                              icon: Icon(Icons.skip_next, color: Colors.deepPurple),
+                  : Row(
+                      spacing: 6.0,
+                      children: [
+                        Container(
+                          width: 62.0,
+                          height: 50.0,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.only(left: 6.0),
+                          child: IconButton(
+                            iconSize: 30,
+                            onPressed: () {
+                              if (usedMoveCurrentPos < currentSolution!.movementSequence.length) {
+                                RubikSolverMovement.doMovement(
+                                  Face.front,
+                                  currentSolution!.movementSequence[usedMoveCurrentPos].movement,
+                                );
+                                ++usedMoveCurrentPos;
+                                scrollToNextStep();
+                                setState(() {});
+                              }
+                            },
+                            style: ButtonStyle(
+                              fixedSize: WidgetStateProperty<Size>.fromMap(<WidgetStatesConstraint, Size>{
+                                WidgetState.any: Size.square(50),
+                              }),
+                              shape:
+                                  WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{
+                                    WidgetState.any: RoundedRectangleBorder(
+                                      side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 1.0),
+                                      borderRadius: BorderRadius.circular(6.0),
+                                    ),
+                                  }),
+                              alignment: Alignment.center,
+                              backgroundColor: WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
+                                WidgetState.hovered: Colors.amber,
+                                // WidgetState.pressed: Colors.deepOrange,
+                                WidgetState.any: Colors.amberAccent,
+                              }),
                             ),
+                            icon: Icon(Icons.run_circle_outlined, color: Colors.deepPurple),
                           ),
-                          Container(height: 50.0, alignment: Alignment.center, child: createSolutionRow()),
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          child: createSolutionScrollPanel(),
+                        ),
+                      ],
                     ),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
                   height: 650,
                   alignment: Alignment.center,
-                  // margin: EdgeInsets.all(10.0),
-                  // width: 1000,
-                  // height: 1000,
                   child: Column(
                     children: [
-                      CustomPaint(painter: RubikCubePlotter(), size: Size(600.0, 650.0) /*size: Size(800, 800)*/),
+                      CustomPaint(painter: RubikCubePlotter(), size: Size(800.0, 650.0) /*size: Size(800, 800)*/),
                     ],
                   ),
                 ),
@@ -457,66 +426,93 @@ class _StartViewState extends State<StartView> {
     );
   }
 
+  Widget createSolutionScrollPanel() {
+    solutionScrollablePanel = SingleChildScrollView(
+      padding: EdgeInsets.only(right: 6.0),
+      scrollDirection: Axis.horizontal,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width, maxHeight: 50.0),
+        child: Wrap(
+          direction: Axis.horizontal,
+          spacing: 6.0,
+          alignment: WrapAlignment.start,
+          children: createSolutionRow(),
+        ),
+      ),
+    );
+    return solutionScrollablePanel;
+  }
+
+  void scrollToNextStep() {
+    if (usedMoveCurrentPos > 0) {
+      Scrollable.ensureVisible(solutionStepButtonKeyList[usedMoveCurrentPos - 1].currentContext!);
+    }
+  }
+
   Color getColorByIndex(int index) {
     Color color = index < usedMoveCurrentPos ? Colors.grey : Colors.blue;
     return color;
   }
 
-  Widget createSolutionRow() {
+  List<Widget> createSolutionRow() {
     int numberOfMoves = currentSolution != null ? currentSolution!.movementSequence.length : 0;
     if (currentSolution == null || currentSolution!.movementSequence.isEmpty) {
-      return SizedBox(height: 50.0, child: Row(children: []));
+      return [];
     }
     List<Widget> solutionMoves = List<Widget>.generate(
       numberOfMoves,
-      (index) => Container(
-        width: 50.0,
-        height: 50.0,
-        alignment: Alignment.center,
-        child: TextButton(
-          onPressed: index >= usedMoveCurrentPos && index < numberOfMoves
-              ? () {
-                  RubikSolverMovement.doMovement(Face.front, currentSolution!.movementSequence[index].movement);
+      (index) {
+        var key = GlobalKey();
+        solutionStepButtonKeyList.add(key);
+        var container = Container(
+          key: key,
+          width: 50.0,
+          height: 50.0,
+          alignment: Alignment.center,
+          child: TextButton(
+            onPressed: index >= usedMoveCurrentPos && index < numberOfMoves
+                ? () {
+                  RubikSolverMovement.doMovement(Face.front,
+                      currentSolution!.movementSequence[index].movement);
                   setNextUsedMove();
+                  scrollToNextStep();
                   setState(() {});
                 }
-              : () {},
-          style: ButtonStyle(
-            fixedSize: WidgetStateProperty<Size>.fromMap(<WidgetStatesConstraint, Size>{
-              WidgetState.any: Size.fromHeight(50),
-            }),
-            shape: WidgetStateProperty<OutlinedBorder>.fromMap(<WidgetStatesConstraint, OutlinedBorder>{
-              WidgetState.any: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-            }),
-            alignment: Alignment.center,
-            backgroundColor: WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-              WidgetState.any: getColorByIndex(index),
-            }),
-            // (usedMoveCurrentPos < usedMove.length
-            //   ? WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-            //       WidgetState.focused: Colors.indigoAccent,
-            //       WidgetState.pressed | WidgetState.hovered: usedMove[index] ? Colors.blueAccent : Colors.deepOrange,
-            //       WidgetState.any: Colors.blue,
-            //     })
-            //   : WidgetStateProperty<Color>.fromMap(<WidgetStatesConstraint, Color>{
-            //       WidgetState.focused: Colors.indigoAccent,
-            //       WidgetState.pressed | WidgetState.hovered: Colors.blueAccent,
-            //       WidgetState.any: Colors.blue,
-            //     })
-            // ),
+                : () {},
+            style: ButtonStyle(
+              fixedSize: WidgetStateProperty<Size>.fromMap(
+                  <WidgetStatesConstraint, Size>{
+                    WidgetState.any: Size.fromHeight(50),
+                  }),
+              shape: WidgetStateProperty<OutlinedBorder>.fromMap(
+                  <WidgetStatesConstraint, OutlinedBorder>{
+                    WidgetState.any: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6.0)),
+                  }),
+              alignment: Alignment.center,
+              backgroundColor: (usedMoveCurrentPos > index
+                  ? WidgetStateProperty<Color>.fromMap(
+                  <WidgetStatesConstraint, Color>{WidgetState.any: Colors.grey})
+                  : (usedMoveCurrentPos == index
+                  ? WidgetStateProperty<Color>.fromMap(
+                  <WidgetStatesConstraint, Color>{
+                    WidgetState.any: Colors.purple,
+                  })
+                  : WidgetStateProperty<Color>.fromMap(
+                  <WidgetStatesConstraint, Color>{
+                    WidgetState.any: Colors.indigoAccent,
+                  }))),
+            ),
+            child: Text(
+              currentSolution!.movementSequence[index].movement.name,
+              style: TextStyle(color: Colors.white, fontSize: 18.0),
+            ),
           ),
-          child: Text(
-            currentSolution!.movementSequence[index].movement.name,
-            style: TextStyle(color: Colors.white, fontSize: 18.0),
-          ),
-        ),
-      ),
+        );
+        solutionStepButtonList.add(container);
+        return container;
+      }
     );
-    return Wrap(
-      alignment: WrapAlignment.spaceEvenly,
-      direction: Axis.horizontal,
-      spacing: 6.0,
-      children: solutionMoves,
-    );
+    return solutionMoves;
   }
 }
