@@ -22,16 +22,6 @@ class CubePart {
     fillColor = color;
   }
 
-  void paint(Canvas canvas, Point2D refPoint, double partEdgeLength) {
-    switch (face) {
-      case Face.front:
-      case Face.top:
-      case Face.right:
-      case Face.back:
-      case Face.bottom:
-      case Face.left:
-    }
-  }
 }
 
 class CubeFace {

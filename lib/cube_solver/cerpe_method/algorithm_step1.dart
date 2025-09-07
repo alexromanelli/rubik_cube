@@ -19,6 +19,7 @@ class AlgorithmStep1 implements AlgorithmStep {
   List<MiddlePiece> findAllWhiteMiddlePieces() {
     var pieces = <MiddlePiece>[];
     for (var face in Face.values) {
+      if (face == Face.none) { continue; }
       for (var place in middlePlaces) {
         Coords coord = (row: place.row, column: place.column);
         MiddlePiece piece = (face: face, coords: coord);
@@ -40,92 +41,92 @@ class AlgorithmStep1 implements AlgorithmStep {
       // front side
       if (RubikCube.getColorName(Face.front, 0, 1) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.down);
-        doMovement(Face.front, Movement.F);
+        doMovement(Face.front, Movement.f);
         putNonWhiteMiddlePieceInSide(FaceDirection.right);
-        doMovement(Face.front, Movement.R);
+        doMovement(Face.front, Movement.r);
       } else if (RubikCube.getColorName(Face.front, 1, 0) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L_);
+        doMovement(Face.front, Movement.l_);
       } else if (RubikCube.getColorName(Face.front, 2, 1) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.down);
-        doMovement(Face.front, Movement.F);
+        doMovement(Face.front, Movement.f);
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L_);
+        doMovement(Face.front, Movement.l_);
       } else if (RubikCube.getColorName(Face.front, 1, 2) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.right);
-        doMovement(Face.front, Movement.R);
+        doMovement(Face.front, Movement.r);
       }
 
       // right side
       if (RubikCube.getColorName(Face.right, 0, 1) == ColorName.white) {
-        doMovement(Face.front, Movement.R);
+        doMovement(Face.front, Movement.r);
         putNonWhiteMiddlePieceInSide(FaceDirection.up);
-        doMovement(Face.front, Movement.B);
+        doMovement(Face.front, Movement.b);
       } else if (RubikCube.getColorName(Face.right, 1, 0) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.down);
-        doMovement(Face.front, Movement.F_);
+        doMovement(Face.front, Movement.f_);
       } else if (RubikCube.getColorName(Face.right, 2, 1) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.right);
-        doMovement(Face.front, Movement.R);
+        doMovement(Face.front, Movement.r);
         putNonWhiteMiddlePieceInSide(FaceDirection.down);
-        doMovement(Face.front, Movement.F_);
+        doMovement(Face.front, Movement.f_);
       } else if (RubikCube.getColorName(Face.right, 1, 2) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.up);
-        doMovement(Face.front, Movement.B);
+        doMovement(Face.front, Movement.b);
       }
 
       // left side
       if (RubikCube.getColorName(Face.left, 0, 1) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L);
+        doMovement(Face.front, Movement.l);
         putNonWhiteMiddlePieceInSide(FaceDirection.down);
-        doMovement(Face.front, Movement.F);
+        doMovement(Face.front, Movement.f);
       } else if (RubikCube.getColorName(Face.left, 1, 0) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.up);
-        doMovement(Face.front, Movement.B_);
+        doMovement(Face.front, Movement.b_);
       } else if (RubikCube.getColorName(Face.left, 2, 1) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L_);
+        doMovement(Face.front, Movement.l_);
         putNonWhiteMiddlePieceInSide(FaceDirection.down);
-        doMovement(Face.front, Movement.F);
+        doMovement(Face.front, Movement.f);
       } else if (RubikCube.getColorName(Face.left, 1, 2) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.down);
-        doMovement(Face.front, Movement.F);
+        doMovement(Face.front, Movement.f);
       }
 
       // back side
       if (RubikCube.getColorName(Face.back, 0, 1) == ColorName.white) {
-        doMovement(Face.front, Movement.B);
+        doMovement(Face.front, Movement.b);
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L);
+        doMovement(Face.front, Movement.l);
       } else if (RubikCube.getColorName(Face.back, 1, 0) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.right);
-        doMovement(Face.front, Movement.R_);
+        doMovement(Face.front, Movement.r_);
       } else if (RubikCube.getColorName(Face.back, 2, 1) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.up);
-        doMovement(Face.front, Movement.B);
+        doMovement(Face.front, Movement.b);
         putNonWhiteMiddlePieceInSide(FaceDirection.right);
-        doMovement(Face.front, Movement.R_);
+        doMovement(Face.front, Movement.r_);
       } else if (RubikCube.getColorName(Face.back, 1, 2) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L);
+        doMovement(Face.front, Movement.l);
       }
 
       // bottom side
       if (RubikCube.getColorName(Face.bottom, 0, 1) == ColorName.white) {
-        doMovement(Face.front, Movement.D);
+        doMovement(Face.front, Movement.d);
         putNonWhiteMiddlePieceInSide(FaceDirection.right);
-        doMovement(Face.front, Movement.R2);
+        doMovement(Face.front, Movement.r2);
       } else if (RubikCube.getColorName(Face.bottom, 1, 0) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L2);
+        doMovement(Face.front, Movement.l2);
       } else if (RubikCube.getColorName(Face.bottom, 2, 1) == ColorName.white) {
-        doMovement(Face.front, Movement.D);
+        doMovement(Face.front, Movement.d);
         putNonWhiteMiddlePieceInSide(FaceDirection.left);
-        doMovement(Face.front, Movement.L2);
+        doMovement(Face.front, Movement.l2);
       } else if (RubikCube.getColorName(Face.bottom, 1, 2) == ColorName.white) {
         putNonWhiteMiddlePieceInSide(FaceDirection.right);
-        doMovement(Face.front, Movement.R2);
+        doMovement(Face.front, Movement.r2);
       }
 
       numberOfNonWhiteMiddlePiecesOnYellowFace = countNotWhiteMiddlePiecesOnYellowFace();
@@ -144,15 +145,15 @@ class AlgorithmStep1 implements AlgorithmStep {
           if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![1][0] !=
               ColorName.white) {
             // rotate yellow face 90° clockwise
-            doMovement(Face.front, Movement.U);
+            doMovement(Face.front, Movement.u);
           } else if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![1][2] !=
               ColorName.white) {
             // rotate yellow face 90° counterclockwise
-            doMovement(Face.front, Movement.U_);
+            doMovement(Face.front, Movement.u_);
           } else {
             // [2][1] != white
             // rotate yellow face 180° clockwise (or counterclockwise, it does not matter for 180° rotation)
-            doMovement(Face.front, Movement.U2);
+            doMovement(Face.front, Movement.u2);
           }
         }
 
@@ -165,15 +166,15 @@ class AlgorithmStep1 implements AlgorithmStep {
           if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![0][1] !=
               ColorName.white) {
             // rotate yellow face 90° clockwise
-            doMovement(Face.front, Movement.U);
+            doMovement(Face.front, Movement.u);
           } else if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![2][1] !=
               ColorName.white) {
             // rotate yellow face 90° counterclockwise
-            doMovement(Face.front, Movement.U_);
+            doMovement(Face.front, Movement.u_);
           } else {
             // [1][0] != white
             // rotate yellow face 180° clockwise (or counterclockwise, it does not matter for 180° rotation)
-            doMovement(Face.front, Movement.U2);
+            doMovement(Face.front, Movement.u2);
           }
         }
 
@@ -186,15 +187,15 @@ class AlgorithmStep1 implements AlgorithmStep {
           if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![1][2] !=
               ColorName.white) {
             // rotate yellow face 90° clockwise
-            doMovement(Face.front, Movement.U);
+            doMovement(Face.front, Movement.u);
           } else if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![1][0] !=
               ColorName.white) {
             // rotate yellow face 90° counterclockwise
-            doMovement(Face.front, Movement.U_);
+            doMovement(Face.front, Movement.u_);
           } else {
             // [0][1] != white
             // rotate yellow face 180° clockwise (or counterclockwise, it does not matter for 180° rotation)
-            doMovement(Face.front, Movement.U2);
+            doMovement(Face.front, Movement.u2);
           }
         }
 
@@ -207,15 +208,15 @@ class AlgorithmStep1 implements AlgorithmStep {
           if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![2][1] !=
               ColorName.white) {
             // rotate yellow face 90° clockwise
-            doMovement(Face.front, Movement.U);
+            doMovement(Face.front, Movement.u);
           } else if (RubikCube.mapFaceToColorNameMatrix[RubikCube.mapColorNameToFace[ColorName.yellow]]![0][1] !=
               ColorName.white) {
             // rotate yellow face 90° counterclockwise
-            doMovement(Face.front, Movement.U_);
+            doMovement(Face.front, Movement.u_);
           } else {
             // [1][2] != white
             // rotate yellow face 180° clockwise (or counterclockwise, it does not matter for 180° rotation)
-            doMovement(Face.front, Movement.U2);
+            doMovement(Face.front, Movement.u2);
           }
         }
     }

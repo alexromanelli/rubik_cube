@@ -60,7 +60,7 @@ class CubeReaderState extends State<CubeReader> {
     5: Colors.yellow,
   };
 
-  static final Map<String, ColorName> colorNameMap = {
+  static final Map<String, ColorName> mapStringToColorName = {
     "Azul": ColorName.blue,
     "Vermelho": ColorName.red,
     "Verde": ColorName.green,
@@ -117,7 +117,7 @@ class CubeReaderState extends State<CubeReader> {
 
   void selectFaceColor(String? colorNameStr) {
     if (colorNameStr != null) {
-      selectedFaceColor = colorNameMap[colorNameStr]!;
+      selectedFaceColor = mapStringToColorName[colorNameStr]!;
     }
   }
 
@@ -144,7 +144,7 @@ class CubeReaderState extends State<CubeReader> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Rubik Cube Solver",
+          "Rubik's Cube Solver",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
         ),
         backgroundColor: Color.fromRGBO(23, 23, 180, 1.0),

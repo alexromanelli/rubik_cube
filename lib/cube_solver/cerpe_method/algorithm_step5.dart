@@ -45,15 +45,15 @@ class AlgorithmStep5 implements AlgorithmStep {
         caseIdentity = Step5Cases.completeCross;
       } else {
         // rotate up side
-        RubikSolverMovement.doMovement(Face.front, Movement.U);
-        logList.add(FaceMovementLog(Face.front, Movement.U));
+        RubikSolverMovement.doMovement(Face.front, Movement.u);
+        logList.add(FaceMovementLog(Face.front, Movement.u));
       }
     }
     return caseIdentity;
   }
 
   void addMovementsForCasePointOrLOrRow(List<FaceMovementLog> logList) {
-    List<Movement> movementList = <Movement>[Movement.F, Movement.R, Movement.U, Movement.R_, Movement.U_, Movement.F_];
+    List<Movement> movementList = <Movement>[Movement.f, Movement.r, Movement.u, Movement.r_, Movement.u_, Movement.f_];
     for (var movement in movementList) {
       logList.add(FaceMovementLog(Face.front, movement));
       RubikSolverMovement.doMovement(Face.front, movement);

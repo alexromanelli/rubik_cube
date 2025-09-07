@@ -38,6 +38,7 @@ class RubikReaderState extends State<RubikReader> {
 
   void completePanelMatrix() {
     for (var face in Face.values) {
+      if (face == Face.none) { continue; }
       int r = facePosition[face]!.$1;
       int c = facePosition[face]!.$2;
       for (int i = 0; i < 3; ++i) {

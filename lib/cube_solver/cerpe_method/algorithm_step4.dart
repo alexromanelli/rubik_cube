@@ -106,72 +106,72 @@ class AlgorithmStep4 implements AlgorithmStep {
 
   void rotateToTheRight(FaceAndMiddleSide faceAndMiddleSide, List<FaceMovementLog> step) {
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u);
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.R]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.r]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.R);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.r);
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u_);
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.R_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.r_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.R_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.r_);
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u_);
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.F_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.f_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.F_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.f_);
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u);
     step.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.F]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.f]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.F);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.f);
   }
 
   void rotateToTheLeft(FaceAndMiddleSide faceAndMiddleSide, List<FaceMovementLog> stepList) {
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u_);
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.L_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.l_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.L_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.l_);
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u);
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.L]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.l]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.L);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.l);
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u);
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.F]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.f]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.F);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.f);
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u_);
     stepList.add(
-      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.F_]!),
+      FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.f_]!),
     );
-    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.F_);
+    RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.f_);
   }
 
   /// This method check the middle pieces on the right and left sides of the vertical faces.
@@ -266,6 +266,7 @@ class AlgorithmStep4 implements AlgorithmStep {
         MiddleSide.down => FaceAndMiddleSide(Face.bottom, MiddleSide.left),
         MiddleSide.left => FaceAndMiddleSide(Face.back, MiddleSide.right),
       },
+      Face.none => FaceAndMiddleSide(Face.none, MiddleSide.right)
     }; // vermelho e verde
   }
 
@@ -292,9 +293,9 @@ class AlgorithmStep4 implements AlgorithmStep {
     var middleColor = RubikCube.getColorName(faceAndMiddleSide.face, middleCoords.row, middleCoords.column);
     while (middleColor != RubikCube.mapFaceToColorName[faceAndMiddleSide.face]) {
       stepList.add(
-        FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.U]!),
+        FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[faceAndMiddleSide.face]![Movement.u]!),
       );
-      RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.U);
+      RubikSolverMovement.doMovement(faceAndMiddleSide.face, Movement.u);
 
       faceAndMiddleSide.face = RubikCube.getNeighbourFace(faceAndMiddleSide.face, FaceDirection.left);
     }

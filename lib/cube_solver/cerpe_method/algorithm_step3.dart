@@ -69,9 +69,9 @@ class AlgorithmStep3 implements AlgorithmStep {
           refFace = RubikCube.getNeighbourFace(faceAndCornerSide.face, FaceDirection.left);
         }
         var movesToPutCornerOutOfBase = <FaceMovementLog>[
-          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
-          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
+          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r]!),
+          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.u]!),
+          FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r_]!),
         ];
         // print("Put corner out of base:");
         // movesToPutCornerOutOfBase.forEach(printMovement);
@@ -89,8 +89,8 @@ class AlgorithmStep3 implements AlgorithmStep {
       Face currentFace = faceAndCornerSide.face;
       CornerSide currentCornerSide = faceAndCornerSide.cornerSide;
       while (!cornerIsAboveCorrectPlace(currentFace, currentCornerSide)) {
-        step.logList.add(FaceMovementLog(Face.front, Movement.U));
-        RubikSolverMovement.doMovement(Face.front, Movement.U);
+        step.logList.add(FaceMovementLog(Face.front, Movement.u));
+        RubikSolverMovement.doMovement(Face.front, Movement.u);
         // print("Spinning Up side:"); printMovement(FaceMovementLog(Face.front, Movement.U));
         // RubikCube.printCube();
         if (currentFace != Face.top) {
@@ -118,9 +118,9 @@ class AlgorithmStep3 implements AlgorithmStep {
           var refFace = RubikCube.getNeighbourFace(currentFace, FaceDirection.left);
           // print("current: ${currentFace}, ref: ${refFace}");
           list.addAll(<FaceMovementLog>[
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.u]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r_]!),
           ]);
           // print("Place corner:");
           // list.forEach(printMovement);
@@ -128,9 +128,9 @@ class AlgorithmStep3 implements AlgorithmStep {
           var refFace = RubikCube.getNeighbourFace(currentFace, FaceDirection.right);
           // print("current: ${currentFace}, ref: ${refFace}");
           list.addAll(<FaceMovementLog>[
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.L_]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U_]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.L]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.l_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.u_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.l]!),
           ]);
           // print("Place corner:");
           // list.forEach(printMovement);
@@ -144,13 +144,13 @@ class AlgorithmStep3 implements AlgorithmStep {
           var refFace = RubikCube.getNeighbourFace(currentFace, faceDirection);
           // print("current: ${currentFace}, ref: ${refFace}");
           list.addAll(<FaceMovementLog>[
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U2]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U_]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.U]!),
-            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.R_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.u2]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.u_]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.u]!),
+            FaceMovementLog(Face.front, RubikCube.mapFaceAndMovementToReferToFront[refFace]![Movement.r_]!),
           ]);
           // print("Place corner:");
           // list.forEach(printMovement);
@@ -379,6 +379,7 @@ class AlgorithmStep3 implements AlgorithmStep {
 
   FaceAndCornerSide? findFirstUnplacedWhiteCorner() {
     for (var face in Face.values) {
+      if (face == Face.none) { continue; }
       for (var cornerSide in CornerSide.values) {
         var coords = mapCornerSideToCoords[cornerSide]!;
         if (RubikCube.getColorName(face, coords.row, coords.column) == ColorName.white) {

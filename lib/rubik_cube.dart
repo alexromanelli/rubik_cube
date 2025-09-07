@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:math';
-
 import 'cube_solver/rubik_solver_movement.dart';
 
 enum FaceDirection { up, left, down, right }
@@ -49,7 +47,17 @@ class CubeCorner extends CubePiece {
   CubeCorner(super.currentFace, super.currentRow, super.currentColumn, super.colorName);
 }
 
-enum Face { front, top, right, back, bottom, left }
+enum Face { front, top, right, back, bottom, left, none }
+
+enum LateralFace {
+  front(Face.front),
+  right(Face.right),
+  back(Face.back),
+  left(Face.left);
+
+  final Face faceValue;
+  const LateralFace(this.faceValue);
+}
 
 enum ColorName {
   white("W"),
@@ -67,6 +75,77 @@ enum ColorName {
 enum CoordAxis { x, y }
 
 class RubikCube {
+  static Map<LateralFace, List<List<Coords>>> mapFaceToTopCoordsMatrix = <LateralFace, List<List<Coords>>>{
+    LateralFace.front: topCoordsRelativeToFace(LateralFace.front),
+    LateralFace.right: topCoordsRelativeToFace(LateralFace.right),
+    LateralFace.back: topCoordsRelativeToFace(LateralFace.back),
+    LateralFace.left: topCoordsRelativeToFace(LateralFace.left),
+  };
+
+  static List<List<Coords>> topCoordsRelativeToFace(LateralFace refFace) {
+    List<List<Coords>> coordsListList = [];
+
+    switch (refFace) {
+      case LateralFace.front:
+        for (var row = 0; row < 3; ++row) {
+          List<Coords> coordsList = [];
+          for (var column = 0; column < 3; ++column) {
+            coordsList.add((row: row, column: column));
+          }
+          coordsListList.add(coordsList);
+        }
+      case LateralFace.right:
+        for (var column = 0; column < 3; ++column) {
+          List<Coords> coordsList = [];
+          for (var row = 2; row >= 0; --row) {
+            coordsList.add((row: row, column: column));
+          }
+          coordsListList.add(coordsList);
+        }
+      case LateralFace.back:
+        for (var row = 2; row >= 0; --row) {
+          List<Coords> coordsList = [];
+          for (var column = 2; column >= 0; --column) {
+            coordsList.add((row: row, column: column));
+          }
+          coordsListList.add(coordsList);
+        }
+      case LateralFace.left:
+        for (var column = 2; column >= 0; --column) {
+          List<Coords> coordsList = [];
+          for (var row = 0; row < 3; ++row) {
+            coordsList.add((row: row, column: column));
+          }
+          coordsListList.add(coordsList);
+        }
+    }
+
+    return coordsListList;
+
+    // return switch (refFace) {
+    //   LateralFace.front => [
+    //     [(row: 0, column: 0), (row: 0, column: 1), (row: 0, column: 2)],            // (0,0) (0,1) (0,2)
+    //     [(row: 1, column: 0), (row: 1, column: 1), (row: 1, column: 2)],            // (1,0) (1,1) (1,2)
+    //     [(row: 2, column: 0), (row: 2, column: 1), (row: 2, column: 2)],            // (2,0) (2,1) (2,2)
+    //   ],
+    //   LateralFace.right => [
+    //     [(row: 2, column: 0), (row: 1, column: 0), (row: 0, column: 0)],            // (2,0) (1,0) (0,0)
+    //     [(row: 2, column: 1), (row: 1, column: 1), (row: 0, column: 1)],            // (2,1) (1,1) (0,1)
+    //     [(row: 2, column: 2), (row: 1, column: 2), (row: 0, column: 2)],            // (2,2) (1,2) (0,2)
+    //   ],
+    //   LateralFace.back => [
+    //     [(row: 2, column: 2), (row: 2, column: 1), (row: 2, column: 0)],            // (2,2) (2,1) (2,0)
+    //     [(row: 1, column: 2), (row: 1, column: 1), (row: 1, column: 0)],            // (1,2) (1,1) (1,0)
+    //     [(row: 0, column: 2), (row: 0, column: 1), (row: 0, column: 0)],            // (0,2) (0,1) (0,0)
+    //   ],
+    //   LateralFace.left => [
+    //     [(row: 0, column: 2), (row: 1, column: 2), (row: 2, column: 2)],            // (0,2) (1,2) (2,2)
+    //     [(row: 0, column: 1), (row: 1, column: 1), (row: 2, column: 2)],            // (0,1) (1,1) (2,1)
+    //     [(row: 0, column: 0), (row: 1, column: 0), (row: 2, column: 2)],            // (0,0) (1,0) (2,0)
+    //   ],
+    // };
+  }
+
   static final Map<(Face, Face), Face> mapFaceAndRelativeFaceToFace = <(Face, Face), Face>{
     (Face.front, Face.top): Face.top,
     (Face.front, Face.bottom): Face.bottom,
@@ -198,7 +277,10 @@ class RubikCube {
           case FaceDirection.right:
             return Face.front;
         }
+      case Face.none:
+        // do nothing
     }
+    return Face.none;
   }
 
   static final Map<Face, List<List<ColorName>>> mapFaceToColorNameMatrix = <Face, List<List<ColorName>>>{
@@ -234,9 +316,14 @@ class RubikCube {
     ],
   };
 
+  static List<Face> getLateralFaceList() {
+    return <Face>[ Face.front, Face.right, Face.back, Face.left ];
+  }
+
   static Map<Face, List<List<ColorName>>> copyOfMapFaceToColorNameMatrix() {
     var copy = <Face, List<List<ColorName>>>{};
     for (Face face in Face.values) {
+      if (face == Face.none) { continue; }
       copy[face] = List<List<ColorName>>.generate(3, (row) {
         return List<ColorName>.generate(3, (column) {
           return mapFaceToColorNameMatrix[face]![row][column];
@@ -248,111 +335,112 @@ class RubikCube {
 
   static Map<Face, Map<Movement, Movement>> mapFaceAndMovementToReferToFront = <Face, Map<Movement, Movement>>{
     Face.right: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.L,
-      Movement.B_: Movement.L_,
-      Movement.B2: Movement.L2,
-      Movement.R: Movement.B,
-      Movement.R_: Movement.B_,
-      Movement.R2: Movement.B2,
-      Movement.L: Movement.F,
-      Movement.L_: Movement.F_,
-      Movement.L2: Movement.F2,
-      Movement.F: Movement.R,
-      Movement.F_: Movement.R_,
-      Movement.F2: Movement.R2,
+      Movement.u: Movement.u,
+      Movement.u_: Movement.u_,
+      Movement.u2: Movement.u2,
+      Movement.b: Movement.l,
+      Movement.b_: Movement.l_,
+      Movement.b2: Movement.l2,
+      Movement.r: Movement.b,
+      Movement.r_: Movement.b_,
+      Movement.r2: Movement.b2,
+      Movement.l: Movement.f,
+      Movement.l_: Movement.f_,
+      Movement.l2: Movement.f2,
+      Movement.f: Movement.r,
+      Movement.f_: Movement.r_,
+      Movement.f2: Movement.r2,
     },
     Face.left: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.R,
-      Movement.B_: Movement.R_,
-      Movement.B2: Movement.R2,
-      Movement.R: Movement.F,
-      Movement.R_: Movement.F_,
-      Movement.R2: Movement.F2,
-      Movement.L: Movement.B,
-      Movement.L_: Movement.B_,
-      Movement.L2: Movement.B2,
-      Movement.F: Movement.L,
-      Movement.F_: Movement.L_,
-      Movement.F2: Movement.L2,
+      Movement.u: Movement.u,
+      Movement.u_: Movement.u_,
+      Movement.u2: Movement.u2,
+      Movement.b: Movement.r,
+      Movement.b_: Movement.r_,
+      Movement.b2: Movement.r2,
+      Movement.r: Movement.f,
+      Movement.r_: Movement.f_,
+      Movement.r2: Movement.f2,
+      Movement.l: Movement.b,
+      Movement.l_: Movement.b_,
+      Movement.l2: Movement.b2,
+      Movement.f: Movement.l,
+      Movement.f_: Movement.l_,
+      Movement.f2: Movement.l2,
     },
     Face.back: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.F,
-      Movement.B_: Movement.F_,
-      Movement.B2: Movement.F2,
-      Movement.R: Movement.L,
-      Movement.R_: Movement.L_,
-      Movement.R2: Movement.L2,
-      Movement.L: Movement.R,
-      Movement.L_: Movement.R_,
-      Movement.L2: Movement.R2,
-      Movement.F: Movement.B,
-      Movement.F_: Movement.B_,
-      Movement.F2: Movement.B2,
+      Movement.u: Movement.u,
+      Movement.u_: Movement.u_,
+      Movement.u2: Movement.u2,
+      Movement.b: Movement.f,
+      Movement.b_: Movement.f_,
+      Movement.b2: Movement.f2,
+      Movement.r: Movement.l,
+      Movement.r_: Movement.l_,
+      Movement.r2: Movement.l2,
+      Movement.l: Movement.r,
+      Movement.l_: Movement.r_,
+      Movement.l2: Movement.r2,
+      Movement.f: Movement.b,
+      Movement.f_: Movement.b_,
+      Movement.f2: Movement.b2,
     },
     Face.front: <Movement, Movement>{
-      Movement.U: Movement.U,
-      Movement.U_: Movement.U_,
-      Movement.U2: Movement.U2,
-      Movement.B: Movement.B,
-      Movement.B_: Movement.B_,
-      Movement.B2: Movement.B2,
-      Movement.R: Movement.R,
-      Movement.R_: Movement.R_,
-      Movement.R2: Movement.R2,
-      Movement.L: Movement.L,
-      Movement.L_: Movement.L_,
-      Movement.L2: Movement.L2,
-      Movement.F: Movement.F,
-      Movement.F_: Movement.F_,
-      Movement.F2: Movement.F2,
+      Movement.u: Movement.u,
+      Movement.u_: Movement.u_,
+      Movement.u2: Movement.u2,
+      Movement.b: Movement.b,
+      Movement.b_: Movement.b_,
+      Movement.b2: Movement.b2,
+      Movement.r: Movement.r,
+      Movement.r_: Movement.r_,
+      Movement.r2: Movement.r2,
+      Movement.l: Movement.l,
+      Movement.l_: Movement.l_,
+      Movement.l2: Movement.l2,
+      Movement.f: Movement.f,
+      Movement.f_: Movement.f_,
+      Movement.f2: Movement.f2,
     },
     Face.top: <Movement, Movement>{
-      Movement.U: Movement.B,
-      Movement.U_: Movement.B_,
-      Movement.U2: Movement.B2,
-      Movement.B: Movement.D,
-      Movement.B_: Movement.D_,
-      Movement.B2: Movement.D2,
-      Movement.R: Movement.R,
-      Movement.R_: Movement.R_,
-      Movement.R2: Movement.R2,
-      Movement.L: Movement.L,
-      Movement.L_: Movement.L_,
-      Movement.L2: Movement.L2,
-      Movement.F: Movement.U,
-      Movement.F_: Movement.U_,
-      Movement.F2: Movement.U2,
+      Movement.u: Movement.b,
+      Movement.u_: Movement.b_,
+      Movement.u2: Movement.b2,
+      Movement.b: Movement.d,
+      Movement.b_: Movement.d_,
+      Movement.b2: Movement.d2,
+      Movement.r: Movement.r,
+      Movement.r_: Movement.r_,
+      Movement.r2: Movement.r2,
+      Movement.l: Movement.l,
+      Movement.l_: Movement.l_,
+      Movement.l2: Movement.l2,
+      Movement.f: Movement.u,
+      Movement.f_: Movement.u_,
+      Movement.f2: Movement.u2,
     },
     Face.bottom: <Movement, Movement>{
-      Movement.U: Movement.F,
-      Movement.U_: Movement.F_,
-      Movement.U2: Movement.F2,
-      Movement.B: Movement.U,
-      Movement.B_: Movement.U_,
-      Movement.B2: Movement.U2,
-      Movement.R: Movement.R,
-      Movement.R_: Movement.R_,
-      Movement.R2: Movement.R2,
-      Movement.L: Movement.L,
-      Movement.L_: Movement.L_,
-      Movement.L2: Movement.L2,
-      Movement.F: Movement.D,
-      Movement.F_: Movement.D_,
-      Movement.F2: Movement.D2,
+      Movement.u: Movement.f,
+      Movement.u_: Movement.f_,
+      Movement.u2: Movement.f2,
+      Movement.b: Movement.u,
+      Movement.b_: Movement.u_,
+      Movement.b2: Movement.u2,
+      Movement.r: Movement.r,
+      Movement.r_: Movement.r_,
+      Movement.r2: Movement.r2,
+      Movement.l: Movement.l,
+      Movement.l_: Movement.l_,
+      Movement.l2: Movement.l2,
+      Movement.f: Movement.d,
+      Movement.f_: Movement.d_,
+      Movement.f2: Movement.d2,
     },
   };
 
   static void resetCube() {
     for (var face in Face.values) {
+      if (face == Face.none) { continue; }
       for (var row in [0, 1, 2]) {
         for (var column in [0, 1, 2]) {
           if (row == 1 && column == 1) {
@@ -393,6 +481,7 @@ class RubikCube {
 
   static void setCubeSolved() {
     for (var face in Face.values) {
+      if (face == Face.none) { continue; }
       for (var row = 0; row < 3; ++row) {
         for (var column = 0; column < 3; ++column) {
           mapFaceToColorNameMatrix[face]![row][column] = mapFaceToColorName[face]!;
@@ -452,11 +541,14 @@ class RubikCube {
         return face2 == Face.bottom;
       case Face.bottom:
         return face2 == Face.top;
+      case Face.none:
+        return false;
     }
   }
 
   static void resetCubeToState(Map<Face, List<List<ColorName>>> initialState) {
     for (var face in Face.values) {
+      if (face == Face.none) { continue; }
       for (var row = 0; row < 3; ++row) {
         for (var column = 0; column < 3; ++column) {
           setColorName(face, row, column, initialState[face]![row][column]);
@@ -465,6 +557,7 @@ class RubikCube {
     }
   }
 
+  /*
   static void printCubeFaceToCubeMatrix(Face face, List<List<String>> cubeMatrix, int startRow, int startColumn) {
     for (int r = 0; r < 3; ++r) {
       for (int c = 0; c < 3; ++c) {
@@ -476,12 +569,14 @@ class RubikCube {
 
   static void printCubeMatrix(List<List<String>> cubeMatrix) {
     print("Cube current state:");
+    final StringBuffer buffer = StringBuffer();
     for (var cubeMatrixRow in cubeMatrix) {
       for (var cubeFaceColumn in cubeMatrixRow) {
-        stdout.write(" $cubeFaceColumn ");
+        buffer.write(" $cubeFaceColumn ");
       }
-      stdout.writeln();
+      buffer.writeln();
     }
+    print(buffer.toString());
   }
 
   static void printCube() {
@@ -500,4 +595,5 @@ class RubikCube {
 
     printCubeMatrix(cubeMatrix);
   }
+   */
 }

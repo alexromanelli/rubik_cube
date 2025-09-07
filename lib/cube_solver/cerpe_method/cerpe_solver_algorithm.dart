@@ -4,6 +4,7 @@ import 'package:rubik_cube/cube_solver/cerpe_method/algorithm_step2.dart';
 import 'package:rubik_cube/cube_solver/cerpe_method/algorithm_step3.dart';
 import 'package:rubik_cube/cube_solver/cerpe_method/algorithm_step4.dart';
 import 'package:rubik_cube/cube_solver/cerpe_method/algorithm_step5.dart';
+import 'package:rubik_cube/cube_solver/cerpe_method/algorithm_step6.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_algorithm.dart';
 import 'package:rubik_cube/cube_solver/rubik_solver_solution.dart';
 import 'package:rubik_cube/rubik_cube.dart';
@@ -41,12 +42,12 @@ class CerpeSolverAlgorithm implements SolverAlgorithm {
       return null;
     }
     currentSolution.movementSequence.addAll(stepResult.logList);
-    stepResult = runAlgorithmStepSeven();
-    if (!stepResult.success) {
-      return null;
-    }
-    currentSolution.movementSequence.addAll(stepResult.logList);
-
+    AlgorithmStepResult.logListAbbreviation(currentSolution.movementSequence);
+    // stepResult = runAlgorithmStepSeven();
+    // if (!stepResult.success) {
+    //   return null;
+    // }
+    // currentSolution.movementSequence.addAll(stepResult.logList);
     return currentSolution;
   }
 
@@ -83,7 +84,8 @@ class CerpeSolverAlgorithm implements SolverAlgorithm {
   }
 
   AlgorithmStepResult runAlgorithmStepSix() {
-    return AlgorithmStepResult(true, <FaceMovementLog>[]);
+    AlgorithmStep step6 = AlgorithmStep6();
+    return step6.runStep();
   }
 
   AlgorithmStepResult runAlgorithmStepSeven() {

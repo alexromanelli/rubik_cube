@@ -3,64 +3,64 @@ import 'package:rubik_cube/rubik_cube.dart';
 /// Movement is an enumeration of all movements that can be done in a Rubik's Cube
 enum Movement {
   /// 90° clockwise rotation of the Right Side (right is relative to the blue side, considered the front)
-  R("R"),
+  r("R"),
 
   /// 90° counterclockwise rotation of the Right Side (right is relative to the blue side, considered the front)
-  R_("R'"),
+  r_("R'"),
 
   /// 180° clockwise rotation (if it was counterclockwise, the result is the same) of the Right Side
   /// (right is relative to the blue side, considered the front)
-  R2("R2"),
+  r2("R2"),
 
   /// 90° clockwise rotation of the Left Side (left is relative to the blue side, considered the front)
-  L("L"),
+  l("L"),
 
   /// 90° counterclockwise rotation of the Left Side (left is relative to the blue side, considered the front)
-  L_("L'"),
+  l_("L'"),
 
   /// 180° clockwise rotation of the Left Side (if it was counterclockwise, the result is the same)
   /// (left is relative to the blue side, considered the front)
-  L2("L2"),
+  l2("L2"),
 
   /// 90° clockwise rotation of the Up Side (up is relative to the blue side, considered the front)
-  U("U"),
+  u("U"),
 
   /// 90° counterclockwise rotation of the Up Side (up is relative to the blue side, considered the front)
-  U_("U'"),
+  u_("U'"),
 
   /// 180° clockwise rotation of the Up Side (if it was counterclockwise, the result is the same)
   /// (up is relative to the blue side, considered the front)
-  U2("U2"),
+  u2("U2"),
 
   /// 90° clockwise rotation of the Down Side (left is relative to the blue side, considered the front)
-  D("D"),
+  d("D"),
 
   /// 90° counterclockwise rotation of the Down Side (left is relative to the blue side, considered the front)
-  D_("D'"),
+  d_("D'"),
 
   /// 180° clockwise rotation of the Down Side (if it was counterclockwise, the result is the same)
   /// (down is relative to the blue side, considered the front)
-  D2("D2"),
+  d2("D2"),
 
   /// 90° clockwise rotation of the Front Side (front is relative to the blue side, considered the front)
-  F("F"),
+  f("F"),
 
   /// 90° counterclockwise rotation of the Front Side (front is relative to the blue side, considered the front)
-  F_("F'"),
+  f_("F'"),
 
   /// 180° clockwise rotation of the Front Side (if it was counterclockwise, the result is the same)
   /// (front is relative to the blue side, considered the front)
-  F2("F2"),
+  f2("F2"),
 
   /// 90° clockwise rotation of the Back Side (back is relative to the blue side, considered the front)
-  B("B"),
+  b("B"),
 
   /// 90° counterclockwise rotation of the Back Side (back is relative to the blue side, considered the front)
-  B_("B'"),
+  b_("B'"),
 
   /// 180° clockwise rotation of the Back Side (if it was counterclockwise, the result is the same)
   /// (back is relative to the blue side, considered the front)
-  B2("B2");
+  b2("B2");
 
   final String name;
   const Movement(this.name);
@@ -87,24 +87,24 @@ class RubikSolverMovement {
 
   static String movementToString(Movement mov) {
     return switch (mov) {
-      Movement.R => "R",
-      Movement.R_ => "R'",
-      Movement.R2 => "R2",
-      Movement.L => "L",
-      Movement.L_ => "L'",
-      Movement.L2 => "L2",
-      Movement.U => "U",
-      Movement.U_ => "U'",
-      Movement.U2 => "U2",
-      Movement.D => "D",
-      Movement.D_ => "D'",
-      Movement.D2 => "D2",
-      Movement.F => "F",
-      Movement.F_ => "F'",
-      Movement.F2 => "F2",
-      Movement.B => "B",
-      Movement.B_ => "B'",
-      Movement.B2 => "B2",
+      Movement.r => "R",
+      Movement.r_ => "R'",
+      Movement.r2 => "R2",
+      Movement.l => "L",
+      Movement.l_ => "L'",
+      Movement.l2 => "L2",
+      Movement.u => "U",
+      Movement.u_ => "U'",
+      Movement.u2 => "U2",
+      Movement.d => "D",
+      Movement.d_ => "D'",
+      Movement.d2 => "D2",
+      Movement.f => "F",
+      Movement.f_ => "F'",
+      Movement.f2 => "F2",
+      Movement.b => "B",
+      Movement.b_ => "B'",
+      Movement.b2 => "B2",
     };
   }
 
@@ -209,7 +209,7 @@ class RubikSolverMovement {
   // RubikSolverMovement(this.movement);
 
   static void testaRotacao() {
-    doMovement(Face.front, Movement.B);
+    doMovement(Face.front, Movement.b);
     // // rotateFace90(Face.front, RotationSense.counterclockwise);
     // var face = Face.bottom;
     // for (int i = 0; i < internalJumpSize; ++i) {
@@ -222,41 +222,41 @@ class RubikSolverMovement {
 
   static void doMovement(Face referenceFace, Movement movement) {
     switch (movement) {
-      case Movement.R:
+      case Movement.r:
         doGeneralMovement(referenceFace, Face.right, RotationSense.clockwise, false);
-      case Movement.R_:
+      case Movement.r_:
         doGeneralMovement(referenceFace, Face.right, RotationSense.counterclockwise, false);
-      case Movement.R2:
+      case Movement.r2:
         doGeneralMovement(referenceFace, Face.right, RotationSense.clockwise, true);
-      case Movement.L:
+      case Movement.l:
         doGeneralMovement(referenceFace, Face.left, RotationSense.clockwise, false);
-      case Movement.L_:
+      case Movement.l_:
         doGeneralMovement(referenceFace, Face.left, RotationSense.counterclockwise, false);
-      case Movement.L2:
+      case Movement.l2:
         doGeneralMovement(referenceFace, Face.left, RotationSense.clockwise, true);
-      case Movement.U:
+      case Movement.u:
         doGeneralMovement(referenceFace, Face.top, RotationSense.clockwise, false);
-      case Movement.U_:
+      case Movement.u_:
         doGeneralMovement(referenceFace, Face.top, RotationSense.counterclockwise, false);
-      case Movement.U2:
+      case Movement.u2:
         doGeneralMovement(referenceFace, Face.top, RotationSense.clockwise, true);
-      case Movement.D:
+      case Movement.d:
         doGeneralMovement(referenceFace, Face.bottom, RotationSense.clockwise, false);
-      case Movement.D_:
+      case Movement.d_:
         doGeneralMovement(referenceFace, Face.bottom, RotationSense.counterclockwise, false);
-      case Movement.D2:
+      case Movement.d2:
         doGeneralMovement(referenceFace, Face.bottom, RotationSense.clockwise, true);
-      case Movement.F:
+      case Movement.f:
         doGeneralMovement(referenceFace, Face.front, RotationSense.clockwise, false);
-      case Movement.F_:
+      case Movement.f_:
         doGeneralMovement(referenceFace, Face.front, RotationSense.counterclockwise, false);
-      case Movement.F2:
+      case Movement.f2:
         doGeneralMovement(referenceFace, Face.front, RotationSense.clockwise, true);
-      case Movement.B:
+      case Movement.b:
         doGeneralMovement(referenceFace, Face.back, RotationSense.clockwise, false);
-      case Movement.B_:
+      case Movement.b_:
         doGeneralMovement(referenceFace, Face.back, RotationSense.counterclockwise, false);
-      case Movement.B2:
+      case Movement.b2:
         doGeneralMovement(referenceFace, Face.back, RotationSense.clockwise, true);
     }
   }

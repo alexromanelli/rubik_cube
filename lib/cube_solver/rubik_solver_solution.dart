@@ -27,32 +27,32 @@ class CubeSolverSolution {
   Map<Face, List<List<ColorName>>> initialState = <Face, List<List<ColorName>>>{
     Face.front: [
       [ColorName.none, ColorName.none, ColorName.none],
-      [ColorName.none, ColorName.none, ColorName.none],
+      [ColorName.none, ColorName.blue, ColorName.none],
       [ColorName.none, ColorName.none, ColorName.none],
     ],
     Face.back: [
       [ColorName.none, ColorName.none, ColorName.none],
-      [ColorName.none, ColorName.none, ColorName.none],
+      [ColorName.none, ColorName.green, ColorName.none],
       [ColorName.none, ColorName.none, ColorName.none],
     ],
     Face.right: [
       [ColorName.none, ColorName.none, ColorName.none],
-      [ColorName.none, ColorName.none, ColorName.none],
+      [ColorName.none, ColorName.red, ColorName.none],
       [ColorName.none, ColorName.none, ColorName.none],
     ],
     Face.left: [
       [ColorName.none, ColorName.none, ColorName.none],
-      [ColorName.none, ColorName.none, ColorName.none],
+      [ColorName.none, ColorName.orange, ColorName.none],
       [ColorName.none, ColorName.none, ColorName.none],
     ],
     Face.top: [
       [ColorName.none, ColorName.none, ColorName.none],
-      [ColorName.none, ColorName.none, ColorName.none],
+      [ColorName.none, ColorName.yellow, ColorName.none],
       [ColorName.none, ColorName.none, ColorName.none],
     ],
     Face.bottom: [
       [ColorName.none, ColorName.none, ColorName.none],
-      [ColorName.none, ColorName.none, ColorName.none],
+      [ColorName.none, ColorName.white, ColorName.none],
       [ColorName.none, ColorName.none, ColorName.none],
     ],
   };
